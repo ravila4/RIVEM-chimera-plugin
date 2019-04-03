@@ -25,8 +25,8 @@ class RIVEM_GUI(ModelessDialog):
 
     def fillInUI(self, parent):
         # Make a label for the Path selection box
-        pathLabel = tk.Label(parent, text='Path to RIVEM executable:')
-        pathLabel.grid(column=0, row=0)
+        testLabel = tk.Label(parent, text='Hello World!')
+        testLabel.grid(column=0, row=0)
 
 
 # Register dialogs
