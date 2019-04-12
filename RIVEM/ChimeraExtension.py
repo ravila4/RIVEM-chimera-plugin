@@ -20,7 +20,7 @@ class RIVEM_EMO(chimera.extension.EMO):
         return ["Surface/Binding Analysis"]
 
     def icon(self):
-        return self.path("RIVEM_logo.png")
+        return self.path("logo.png")
 
     def activate(self):
         from chimera.dialogs import display
