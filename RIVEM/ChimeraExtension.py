@@ -1,6 +1,6 @@
 """
 UCSF Chimera plugin for RIVEM
-Last edited: 2019-03-31
+Last edited: 2019-04-01
 """
 
 
@@ -34,7 +34,7 @@ chimera.extension.manager.registerExtension(RIVEM_EMO(__file__))
 # Register commands
 
 def runRIVEM(cmd, args):
-    from RIVEM import RIVEM
+    from RIVEM import rivem
 
 import Midas.midas_text
-Midas.midas_text.addCommand('RIVEM', runRIVEM, None, help=True)
+Midas.midas_text.addCommand('rivem', runRIVEM, None, help=True)
