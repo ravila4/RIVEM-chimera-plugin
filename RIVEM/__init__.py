@@ -12,7 +12,7 @@ RIVEM_version = '4.5'
 
 
 class rivem():
-    """Class to interact with RIVEM executable."""
+    """RIVEM wrapper class to store arguments and run the executable."""
     def __init__(self):
         # Output file is generated in a temp dir
         self.temp_dir = tempfile.mkdtemp()
