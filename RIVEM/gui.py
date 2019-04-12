@@ -7,12 +7,10 @@ import os
 import os.path
 import Tkinter as tk
 import Pmw
-import time
 import chimera
 from chimera.baseDialog import ModelessDialog
 from chimera.widgets import MoleculeScrolledListBox
 from chimera.widgets import MoleculeOptionMenu
-from chimera import Molecule
 from chimera import dialogs
 from RIVEM import rivem, RIVEM_version
 
@@ -20,7 +18,7 @@ from RIVEM import rivem, RIVEM_version
 class RIVEM_GUI(ModelessDialog):
     name = "RIVEM"
     title = "RIVEM v" + RIVEM_version
-    buttons = ('Plot', 'Close')
+    buttons = ('Plot', 'Print Command', 'Close')
     help = "file://" + os.path.join(os.path.dirname(__file__), "manual.html")
 
     def fillInUI(self, parent):
@@ -55,12 +53,22 @@ class RIVEM_GUI(ModelessDialog):
         elif matrix == "ncs2":
             self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
                                                "matrix_files", "ncs2.def")
+
     def Plot(self):
-        # Initialize a RIVEM wrapper object
+        """Set up command and run RIVEM executable."""
+        # Initialize RIVEM wrapper object
         self.wrapper = rivem()
         self.updateParams()
         # Run command
         self.wrapper.run()
+
+    def PrintCommand(self):
+        """Prints the command for the current parameters."""
+        self.wrapper = rivem()
+        self.updateParams()
+        cmd = " ".join(self.wrapper.generate_cmd())
+        print(cmd)
+
 
 #
 # ----------------------------------------------------------------------------
