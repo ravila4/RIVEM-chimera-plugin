@@ -26,11 +26,18 @@ class rivem():
         print("setting self.PDB", self.PDB)
 
     def generate_cmd(self):
-        cmd = ["rivem", "-p", self.PDB, "-O", self.out]
+        cmd = ["rivem"]
+        if self.PDB is not None:
+            cmd += ["-p", self.PDB]
+        if self.matrix is not None:
+            cmd += ["-m", self.matrix]
+        # Add output file
+        cmd += ["-O", self.out]
         return cmd
 
     def run(self):
         cmd = self.generate_cmd()
+        print("command:", cmd)
         subprocess.call(cmd)
         print("Wrote output file to:", self.out)
 
