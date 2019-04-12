@@ -17,13 +17,8 @@ class rivem():
         # Output file is generated in a temp dir
         self.temp_dir = tempfile.mkdtemp()
         self.out = os.path.join(self.temp_dir, "map.ps")
-        self.PDB = None     # Input PDB
-        self.matrix = None  # Input matrix
-
-    def set_input_PDB(self, path):
-        """Takes as agument a file path to a currently loaded model."""
-        self.PDB = path
-        print("setting self.PDB", self.PDB)
+        self.PDB = None
+        self.matrix = None
 
     def generate_cmd(self):
         cmd = ["rivem"]
@@ -37,7 +32,6 @@ class rivem():
 
     def run(self):
         cmd = self.generate_cmd()
-        print("command:", cmd)
+        print("Command:", cmd)
         subprocess.call(cmd)
         print("Wrote output file to:", self.out)
-
