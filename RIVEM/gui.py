@@ -18,7 +18,7 @@ from RIVEM import rivem, RIVEM_version
 class RIVEM_GUI(ModelessDialog):
     name = "RIVEM"
     title = "RIVEM v" + RIVEM_version
-    buttons = ('Plot', 'Print Command', 'Close')
+    buttons = ('Run', 'Print Command', 'Close')
     help = "file://" + os.path.join(os.path.dirname(__file__), "manual.html")
 
     def fillInUI(self, parent):
@@ -34,6 +34,14 @@ class RIVEM_GUI(ModelessDialog):
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
+        # Text box for printing commands
+        self.cmdTxtBox = Pmw.ScrolledText(parent, label_text="Command",
+                                          labelpos="n", usehullsize=1,
+                                          hull_width=400, hull_height=80,
+                                          text_padx=4, text_pady=4)
+        self.cmdTxtBox.configure(text_state="disabled")
+        self.cmdTxtBox.bind("<1>", lambda event: self.cmdTxtBox.focus_set())
+        self.cmdTxtBox.grid(sticky='s')
         # Add a model selection list
         #self.inputModelList = MoleculeScrolledListBox(
         #        parent, autoselect='single', labelpos='w',
@@ -47,14 +55,14 @@ class RIVEM_GUI(ModelessDialog):
         matrix = self.matrixMenu.getvalue()
         if matrix == "None":
             self.wrapper.matrix = None
-        elif matrix == "ncs":
+        elif matrix == "ncs1":
             self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
                                                "matrix_files", "ncs.def")
         elif matrix == "ncs2":
             self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
                                                "matrix_files", "ncs2.def")
 
-    def Plot(self):
+    def Run(self):
         """Set up command and run RIVEM executable."""
         # Initialize RIVEM wrapper object
         self.wrapper = rivem()
@@ -67,6 +75,7 @@ class RIVEM_GUI(ModelessDialog):
         self.wrapper = rivem()
         self.updateParams()
         cmd = " ".join(self.wrapper.generate_cmd())
+        self.cmdTxtBox.settext(cmd)
         print(cmd)
 
 
