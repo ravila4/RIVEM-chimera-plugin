@@ -28,7 +28,7 @@ class RIVEM_GUI(ModelessDialog):
         f = tk.Frame(parent)
         # Input PDB selection dropdown
         self.inputPDBMenu = MoleculeOptionMenu(parent, label_text="Input PDB:",
-                                            labelpos='w')
+                                               labelpos='w')
         self.inputPDBMenu.grid(row=2, column=1)
         # Add a model selection list
         #self.inputModelList = MoleculeScrolledListBox(
@@ -38,11 +38,11 @@ class RIVEM_GUI(ModelessDialog):
 
 
     def Plot(self):
-        # Get parameters from GUI
-        input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
-        # Set command parameters
         wrapper = rivem()
-        wrapper.set_input_PDB(input_pdb_path)
+        # Get parameters from GUI
+        if self.inputPDBMenu.getvalue() is not None:
+            input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
+            wrapper.set_input_PDB(input_pdb_path)
         # Run command
         wrapper.run()
 
