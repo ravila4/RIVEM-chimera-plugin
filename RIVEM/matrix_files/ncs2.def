@@ -1,0 +1,928 @@
+{+ file: ncs.def  +}
+{+ directory: auxiliary +}
+{+ description: Defines non-crystallographic constraints or restraints +} 
+{+ authors: Axel T. Brunger, and Paul D. Adams +}
+{+ copyright: Yale University +}
+
+{- begin block parameter definition -} define(
+
+{============================ NCS type ===============================}
+
+{* NCS type *}
+{+ choice: "strict" "restrain" +}
+{===>} ncs_type="strict";
+
+{===================== strict NCS (Skew matrix) ======================}
+
+
+{* Skew matrix *}
+
+{* use the skew matrix *}
+{+ choice: true false +}
+{===>} skew_use=true;
+
+{* real-space skew matrix *}
+{* Rotate everything 90 degree *}
+
+{===>} skew_matrix=(  1.0  0.0  0.0 ) 
+                   (  0.0  1.0  0.0 ) 
+                   (  0.0  0.0  1.0 ); 
+
+{* real-space skew vector *} 
+{===>} skew_vector=(  0.0 0.0 0.0 ); 
+
+
+{*****************************************************************}
+{********** These matrices were generated using makemat **********}
+{*****************************************************************}
+{* NCS nonbonded operator 1 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_1=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_1=(  1.000000000     0.000000000     0.000000000 )
+                    (  0.000000000     1.000000000     0.000000000 )
+                    (  0.000000000     0.000000000     1.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_1=(0 0 0);
+
+{* NCS nonbonded operator 2 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_2=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_2=(  0.809016994375375    -0.309016994375     0.500000000000 )
+                    (  0.309016994375    -0.500000000000    -0.809016994375 )
+                    (  0.500000000000     0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_2=(0 0 0);
+
+{* NCS nonbonded operator 3 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_3=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_3=(  0.809016994375     0.309016994375     0.500000000000 )
+                    ( -0.309016994375    -0.500000000000     0.809016994375 )
+                    (  0.500000000000    -0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_3=(0 0 0);
+
+{* NCS nonbonded operator 4 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_4=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_4=(  1.000000000     0.000000000     0.000000000 )
+                    (  0.000000000    -1.000000000     0.000000000 )
+                    (  0.000000000     0.000000000    -1.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_4=(0 0 0);
+
+{* NCS nonbonded operator 5 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_5=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_5=(  0.809016994375    -0.309016994375     0.500000000000 )
+                    ( -0.309016994375     0.500000000000     0.809016994375 )
+                    ( -0.500000000000    -0.809016994375     0.309016994375 );
+
+
+{* real-space translation vector *}
+{===>} ncs_vector_5=(0 0 0);
+
+{* NCS nonbonded operator 6 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_6=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_6=(  0.809016994375     0.309016994375     0.500000000000 )
+                    (  0.309016994375     0.500000000000    -0.809016994375 )
+                    ( -0.500000000000     0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_6=(0 0 0);
+
+{* NCS nonbonded operator 7 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_7=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_7=(  0.500000000000    -0.809016994375    -0.309016994375 )
+                    (  0.809016994375     0.309016994375     0.500000000000 )
+                    ( -0.309016994375    -0.500000000000     0.809016994375 );
+
+
+{* real-space translation vector *}
+{===>} ncs_vector_7=(0 0 0);
+
+{* NCS nonbonded operator 8 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_8=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_8=(  0.000000000     0.000000000     1.000000000 )
+                    (  1.000000000     0.000000000     0.000000000 )
+                    (  0.000000000     1.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_8=(0 0 0);
+
+{* NCS nonbonded operator 9 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_9=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_9=(  0.500000000000     0.809016994375    -0.309016994375 )
+                    (  0.809016994375    -0.309016994375     0.500000000000 )
+                    (  0.309016994375    -0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_9=(0 0 0);
+
+{* NCS nonbonded operator 10 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_10=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_10=(  0.500000000000     0.809016994375     0.309016994375 )
+                     (  0.809016994375    -0.309016994375    -0.500000000000 )
+                     ( -0.309016994375     0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_10=(0 0 0);
+
+{* NCS nonbonded operator 11 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_11=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_11=(  0.809016994375    -0.309016994375    -0.500000000000 )
+                     (  0.309016994375    -0.500000000000     0.809016994375 )
+                     ( -0.500000000000    -0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_11=(0 0 0);
+
+{* NCS nonbonded operator 12 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_12=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_12=(  0.309016994375    -0.500000000000     0.809016994375 )
+                     (  0.500000000000     0.809016994375     0.309016994375 )
+                     ( -0.809016994375     0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_12=(0 0 0);
+
+{* NCS nonbonded operator 13 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_13=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_13=( -0.309016994375    -0.500000000000    -0.809016994375 )
+                     (  0.500000000000    -0.809016994375     0.309016994375 )
+                     ( -0.809016994375    -0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_13=(0 0 0);
+
+{* NCS nonbonded operator 14 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_14=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_14=( -0.809016994375    -0.309016994375     0.500000000000 )
+                     (  0.309016994375     0.500000000000     0.809016994375 )
+                     ( -0.500000000000     0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_14=(0 0 0);
+
+{* NCS nonbonded operator 15 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_15=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_15=( -0.500000000000     0.809016994375    -0.309016994375 )
+                     (  0.809016994375     0.309016994375    -0.500000000000 )
+                     ( -0.309016994375    -0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_15=(0 0 0);
+
+{* NCS nonbonded operator 16 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_16=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_16=( -0.309016994375     0.500000000000     0.809016994375 )
+                     (  0.500000000000     0.809016994375    -0.309016994375 )
+                     ( -0.809016994375     0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_16=(0 0 0);
+
+{* NCS nonbonded operator 17 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_17=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_17=(  0.309016994375     0.500000000000    -0.809016994375 )
+                     (  0.500000000000    -0.809016994375    -0.309016994375 )
+                     ( -0.809016994375    -0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_17=(0 0 0);
+
+{* NCS nonbonded operator 18 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_18=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_18=(  0.000000000    -1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000     1.000000000 )
+                     ( -1.000000000     0.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_18=(0 0 0);
+
+{* NCS nonbonded operator 19 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_19=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_19=( -0.309016994375     0.500000000000    -0.809016994375 )
+                     ( -0.500000000000    -0.809016994375    -0.309016994375 )
+                     ( -0.809016994375     0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_19=(0 0 0);
+
+{* NCS nonbonded operator 20 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_20=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_20=( -0.500000000000    -0.809016994375    -0.309016994375 )
+                     ( -0.809016994375     0.309016994375     0.500000000000 )
+                     ( -0.309016994375     0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_20=(0 0 0);
+
+{* NCS nonbonded operator 21 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_21=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_21=( -0.809016994375     0.309016994375     0.500000000000 )
+                     ( -0.309016994375     0.500000000000    -0.809016994375 )
+                     ( -0.500000000000    -0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_21=(0 0 0);
+
+{* NCS nonbonded operator 22 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_22=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_22=( -0.309016994375    -0.500000000000     0.809016994375 )
+                     ( -0.500000000000     0.809016994375     0.309016994375 )
+                     ( -0.809016994375    -0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_22=(0 0 0);
+
+{* NCS nonbonded operator 23 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_23=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_23=(  0.000000000     1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000    -1.000000000 )
+                     ( -1.000000000     0.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_23=(0 0 0);
+
+{* NCS nonbonded operator 24 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_24=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_24=(  0.309016994375    -0.500000000000    -0.809016994375 )
+                     ( -0.500000000000    -0.809016994375     0.309016994375 )
+                     ( -0.809016994375     0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_24=(0 0 0);
+
+{* NCS nonbonded operator 25 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_25=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_25=(  0.500000000000     0.809016994375    -0.309016994375 )
+                     ( -0.809016994375     0.309016994375    -0.500000000000 )
+                     ( -0.309016994375     0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_25=(0 0 0);
+
+{* NCS nonbonded operator 26 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_26=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_26=(  0.500000000000    -0.809016994375    -0.309016994375 )
+                     ( -0.809016994375    -0.309016994375    -0.500000000000 )
+                     (  0.309016994375     0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_26=(0 0 0);
+
+{* NCS nonbonded operator 27 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_27=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_27=(  0.000000000     0.000000000     1.000000000 )
+                     ( -1.000000000     0.000000000     0.000000000 )
+                     (  0.000000000    -1.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_27=(0 0 0);
+
+{* NCS nonbonded operator 28 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_28=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_28=(  0.500000000000    -0.809016994375     0.309016994375 )
+                     ( -0.809016994375    -0.309016994375     0.500000000000 )
+                     ( -0.309016994375    -0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_28=(0 0 0);
+
+{* NCS nonbonded operator 29 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_29=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_29=(  0.309016994375     0.500000000000     0.809016994375 )
+                     ( -0.500000000000     0.809016994375    -0.309016994375 )
+                     ( -0.809016994375    -0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_29=(0 0 0);
+
+{* NCS nonbonded operator 30 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_30=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_30=(  0.809016994375     0.309016994375    -0.500000000000 )
+                     ( -0.309016994375    -0.500000000000    -0.809016994375 )
+                     ( -0.500000000000     0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_30=(0 0 0);
+
+{* NCS nonbonded operator 31 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_31=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_31=( -1.000000000     0.000000000     0.000000000 )
+                     (  0.000000000     1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000    -1.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_31=(0 0 0);
+
+{* NCS nonbonded operator 32 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_32=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_32=( -0.809016994375     0.309016994375    -0.500000000000 )
+                     (  0.309016994375    -0.500000000000    -0.809016994375 )
+                     ( -0.500000000000    -0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_32=(0 0 0);
+
+{* NCS nonbonded operator 33 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_33=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_33=( -0.809016994375    -0.309016994375    -0.500000000000 )
+                     ( -0.309016994375    -0.500000000000     0.809016994375 )
+                     ( -0.500000000000     0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_33=(0 0 0);
+
+{* NCS nonbonded operator 34 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_34=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_34=( -1.000000000     0.000000000     0.000000000 )
+                     (  0.000000000    -1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000     1.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_34=(0 0 0);
+
+{* NCS nonbonded operator 35 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_35=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_35=( -0.809016994375     0.309016994375    -0.500000000000 )
+                     ( -0.309016994375     0.500000000000     0.809016994375 )
+                     (  0.500000000000     0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_35=(0 0 0);
+
+{* NCS nonbonded operator 36 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_36=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_36=( -0.809016994375    -0.309016994375    -0.500000000000 )
+                     (  0.309016994375     0.500000000000    -0.809016994375 )
+                     (  0.500000000000    -0.809016994375    -0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_36=(0 0 0);
+
+{* NCS nonbonded operator 37 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_37=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_37=( -0.500000000000     0.809016994375     0.309016994375 )
+                     (  0.809016994375     0.309016994375     0.500000000000 )
+                     (  0.309016994375     0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_37=(0 0 0);
+
+{* NCS nonbonded operator 38 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_38=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_38=(  0.000000000     0.000000000    -1.000000000 )
+                     (  1.000000000     0.000000000     0.000000000 )
+                     (  0.000000000    -1.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_38=(0 0 0);
+
+{* NCS nonbonded operator 39 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_39=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_39=( -0.500000000000    -0.809016994375     0.309016994375 )
+                     (  0.809016994375    -0.309016994375     0.500000000000 )
+                     ( -0.309016994375     0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_39=(0 0 0);
+
+{* NCS nonbonded operator 40 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_40=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_40=( -0.500000000000    -0.809016994375    -0.309016994375 )
+                     (  0.809016994375    -0.309016994375    -0.500000000000 )
+                     (  0.309016994375    -0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_40=(0 0 0);
+
+{* NCS nonbonded operator 41 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_41=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_41=( -0.809016994375     0.309016994375     0.500000000000 )
+                     (  0.309016994375    -0.500000000000     0.809016994375 )
+                     (  0.500000000000     0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_41=(0 0 0);
+
+{* NCS nonbonded operator 42 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_42=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_42=( -0.309016994375     0.500000000000    -0.809016994375 )
+                     (  0.500000000000     0.809016994375     0.309016994375 )
+                     (  0.809016994375    -0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_42=(0 0 0);
+
+{* NCS nonbonded operator 43 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_43=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_43=(  0.309016994375     0.500000000000     0.809016994375 )
+                     (  0.500000000000    -0.809016994375     0.309016994375 )
+                     (  0.809016994375     0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_43=(0 0 0);
+
+{* NCS nonbonded operator 44 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_44=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_44=(  0.809016994375     0.309016994375    -0.500000000000 )
+                     (  0.309016994375     0.500000000000     0.809016994375 )
+                     (  0.500000000000    -0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_44=(0 0 0);
+
+{* NCS nonbonded operator 45 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_45=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_45=(  0.500000000000    -0.809016994375     0.309016994375 )
+                     (  0.809016994375     0.309016994375    -0.500000000000 )
+                     (  0.309016994375     0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_45=(0 0 0);
+
+{* NCS nonbonded operator 46 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_46=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_46=(  0.309016994375    -0.500000000000    -0.809016994375 )
+                     (  0.500000000000     0.809016994375    -0.309016994375 )
+                     (  0.809016994375    -0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_46=(0 0 0);
+
+{* NCS nonbonded operator 47 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_47=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_47=( -0.309016994375    -0.500000000000     0.809016994375 )
+                     (  0.500000000000    -0.809016994375    -0.309016994375 )
+                     (  0.809016994375     0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_47=(0 0 0);
+
+{* NCS nonbonded operator 48 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_48=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_48=(  0.000000000     1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000     1.000000000 )
+                     (  1.000000000     0.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_48=(0 0 0);
+
+{* NCS nonbonded operator 49 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_49=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_49=(  0.309016994375    -0.500000000000     0.809016994375 )
+                     ( -0.500000000000    -0.809016994375    -0.309016994375 )
+                     (  0.809016994375    -0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_49=(0 0 0);
+
+{* NCS nonbonded operator 50 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_50=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_50=(  0.500000000000     0.809016994375     0.309016994375 )
+                     ( -0.809016994375     0.309016994375     0.500000000000 )
+                     (  0.309016994375    -0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_50=(0 0 0);
+
+{* NCS nonbonded operator 51 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_51=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_51=(  0.809016994375    -0.309016994375    -0.500000000000 )
+                     ( -0.309016994375     0.500000000000    -0.809016994375 )
+                     (  0.500000000000     0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_51=(0 0 0);
+
+{* NCS nonbonded operator 52 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_52=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_52=(  0.309016994375     0.500000000000    -0.809016994375 )
+                     ( -0.500000000000     0.809016994375     0.309016994375 )
+                     (  0.809016994375     0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_52=(0 0 0);
+
+{* NCS nonbonded operator 53 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_53=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_53=(  0.000000000    -1.000000000     0.000000000 )
+                     (  0.000000000     0.000000000    -1.000000000 )
+                     (  1.000000000     0.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_53=(0 0 0);
+
+{* NCS nonbonded operator 54 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_54=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_54=( -0.309016994375     0.500000000000     0.809016994375 )
+                     ( -0.500000000000    -0.809016994375     0.309016994375 )
+                     (  0.809016994375    -0.309016994375     0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_54=(0 0 0);
+
+{* NCS nonbonded operator 55 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_55=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_55=( -0.500000000000    -0.809016994375     0.309016994375 )
+                     ( -0.809016994375     0.309016994375    -0.500000000000 )
+                     (  0.309016994375    -0.500000000000    -0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_55=(0 0 0);
+
+{* NCS nonbonded operator 56 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_56=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_56=( -0.500000000000     0.809016994375     0.309016994375 )
+                     ( -0.809016994375    -0.309016994375    -0.500000000000 )
+                     ( -0.309016994375    -0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_56=(0 0 0);
+
+{* NCS nonbonded operator 57 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_57=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_57=(  0.000000000     0.000000000    -1.000000000 )
+                     ( -1.000000000     0.000000000     0.000000000 )
+                     (  0.000000000     1.000000000     0.000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_57=(0 0 0);
+
+{* NCS nonbonded operator 58 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_58=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_58=( -0.500000000000     0.809016994375    -0.309016994375 )
+                     ( -0.809016994375    -0.309016994375     0.500000000000 )
+                     (  0.309016994375     0.500000000000     0.809016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_58=(0 0 0);
+
+{* NCS nonbonded operator 59 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_59=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_59=( -0.309016994375    -0.500000000000    -0.809016994375 )
+                     ( -0.500000000000     0.809016994375    -0.309016994375 )
+                     (  0.809016994375     0.309016994375    -0.500000000000 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_59=(0 0 0);
+
+{* NCS nonbonded operator 60 *}
+
+{* use this operator *}
+{+ choice: true false +}
+{===>} ncs_op_60=true;
+
+{* real-space rotation matrix *}
+{===>} ncs_matrix_60=( -0.809016994375    -0.309016994375     0.500000000000 )
+                     ( -0.309016994375    -0.500000000000    -0.809016994375 )
+                     (  0.500000000000    -0.809016994375     0.309016994375 );
+
+{* real-space translation vector *}
+{===>} ncs_vector_60=(0 0 0);
+
+{* Map matrix *}
+
+{* use the map matrix *}
+{+ choice: true false +}
+{+ choice: true false invert +}
+{+ the default map matrix is the matrix that rotate standard rotation map +}
+{+ to the real map that is read into the program. If you got the inverted +}
+{+ matrix, input map_use as invert +}
+{===>} map_use=true;
+
+{* real space matrix to align the standard PDB XYZ and the map *}
+
+{===>} map_matrix=(  -0.511490047     0.801273763    0.310373932 ) 
+                   ( -0.798644722    -0.310018480   -0.515803814 ) 
+                   ( -0.317073345    -0.511706114    0.798507214 ); 
+
+{* real-space translation vector *} 
+{===>} map_vector=(  5.1794 5.7246 4.9068 );
+
+{* use the map matrix *}
+{+ choice: true false invert +}
+{+ the default map matrix is the matrix that rotate standard rotation map +}
+{+ to the real map that is read into the program. If you got the inverted +}
+{+ matrix, input map_use as invert +} 
+{===>} map0_use=true;
+
+{* real space matrix to align the standard PDB XYZ and the map *}
+
+
+{===>} map0_matrix=(  -0.511490047     0.801273763    0.310373932 ) 
+                   ( -0.798644722    -0.310018480   -0.515803814 ) 
+                   ( -0.317073345    -0.511706114    0.798507214 ); 
+
+{* real-space translation vector *} 
+{===>} map0_vector=(  5.1794 5.7246 4.9068 );
+
+{* use the map matrix *}
+{+ choice: true false +}
+{===>} map1_use=true;
+
+{* real-space map matrix to align to the PDB*}
+{* Rotate everything 90 degree *}
+
+{===>} map1_matrix=(  -0.809016994375     0.309016994375    0.500000000000 ) 
+                   (  -0.500000000000    -0.809016994375   -0.309016994375 ) 
+                   (   0.309016994375    -0.500000000000    0.809016994375 ); 
+
+{* real-space translation vector *} 
+{===>} map1_vector=(  5.1794 5.7246 4.9068 );
