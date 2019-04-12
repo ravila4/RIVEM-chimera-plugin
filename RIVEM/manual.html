@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML//EN">
+<html version="4.0"><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>RIVEM</title>
+</head>
+<body>
+<p></p>
+
+<center><h2 align="CENTER"><b>RIVEM</b></h2><b>
+</b></center><b>
+<h3><a name="RIVEM">RIVEM</a></h3><a name="RIVEM">
+<p><b>Function of the program:</b> &nbsp; 
+The program reads in spherical virus electron-density maps and project the 
+densities along defined radial vectors onto a sterographic sphere.  The 
+projected density can be represented as contour lines or as gradient of 
+colors.  The program can also read atomic coordinates from a PDB and project 
+chosen residues as roadmap onto the same sterographic sphere. The residues 
+can be labeled and colored in various way.  The program is still actively 
+developped. If you have any problem of using it. Please contact the author 
+at Chuan (River) Xiao (cxiao@utep.edu)
+</p><p><b>Purpose of the program:</b> &nbsp; 
+Studies of receptor binding to the surface of parvoviruses presented 
+a problem of how to visualize the interaction between the two complex 
+molecular surfaces.  The program RIVEM (Radial Interpretation of 
+Viral Electron density Maps) was developed to project an asymmetric 
+receptor density radially onto a unit sphere using spherical coordinates.  
+The stereographic diagram of the projected densities allows a clear 
+visualization of the receptor footprint on the icosahedral virus surface.  
+A spherical "roadmap" function was incorporated into RIVEM so that virus 
+surface residues were projected within the same unit sphere and therefore 
+superimpose onto the projected receptor densities.  The program offers a 
+powerful way to visualize and study the correlation between atomic 
+structures and electron density maps in a generic variety of model systems. 
+</p><p></p><li><b> Spherical Systems: </b> &nbsp;
+Two spherical coordinate systems were defined in the 
+RIVEM program (see figure below) to match the two different standard icosahedral 
+orientations (see figure inset icosahedrons). This allowed users to visualize 
+their results without having to rotate the map or the atomic coordinates before 
+using the program.  In system 1, the definitions of the two polar angles are 
+similar to those used in (Rossman and Blow, 1962), which can facilitate the 
+comparison between X-ray crystallography studies and cryo-EM studies, because 
+these definitions were also used in many X-ray crystallography programs such as 
+the general rotation function program GLRF (Tong and Rossmann, 1997).  In system 2, 
+the output results are similar to those of the ROADMAP program (Chapman, 1993), 
+in which X axis points north and Y axis is towards the east on the final 2-D diagram.
+<p align="center"><img src="manual_files/sp_systems.jpg" width="600" border="0">
+</p><p></p></li><li> <b>Usage: </b><i>rivem [options] [in.map]* out.ps </i>
+<p><font size="-1">* Input map can be ommitted so that it will only generate 
+the sperical roadmap. But -O option must be set. </font>
+</p><p></p></li><li> <b> Opitions define the plot region: </b>
+<table border="1">
+<tbody>
+<tr>
+<td> Options
+</td><td> explanations
+</td></tr>
+<tr>
+<td> -S polar
+</td><td> Define the polar system,default is 1<br>
+polar = 1: Theta(Psi) is rotate from X <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Phi is rotate from Y toward Z <br>
+polar = 2: Theta(Psi) is rotate from Y <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Phi is rotate from X away from Z <br>
+2 is the same as Rossmann&amp;Blow,1962
+</td></tr>
+<tr>
+<td> -Pbeg[in] begPhi
+</td><td> Plot start with begPhi,default 0.0
+</td></tr>
+<tr>
+<td> -Pend endPhi
+</td><td> Plot start with endPhi,default 180.0
+</td></tr>
+<tr>
+<td> -Tbeg[in] begTheta
+</td><td> Plot start with begTheta,default 0.0
+</td></tr>
+<tr>
+<td> -Tend endTheta  
+</td><td> Plot start with endTheta,default 180.0
+</td></tr>
+<tr>
+<td> -D delta_angle 
+</td><td> Define the increment step of angle,default 1.0 degree
+</td></tr>
+<tr>
+<td> -Xbeg[in] begX
+</td><td> Plot start with begX in Angstrom, default -3.402823E+38
+</td></tr>
+<tr>
+<td> -Xend endX 
+</td><td> Plot start with endX in Angstrom, default 3.402823E+38
+</td></tr>
+<tr>
+<td> -Ybeg[in] begY
+</td><td> Plot start with begX in Angstrom, default -3.402823E+38
+</td></tr>
+<tr>
+<td> -Zbeg[in] begZ
+</td><td> Plot start with begX in Angstrom, default -3.402823E+38
+</td></tr>
+<tr>
+<td> -Zend endZ
+</td><td> Plot start with endX in Angstrom, default 3.402823E+38
+</td></tr>
+<tr>
+<td> -O
+</td><td> Turn off map countour plotting, only plot roadmap, map filename
+should be omitted, otherwise it will be regarded as the PDB input
+</td></tr>
+</tbody>
+</table>
+<p></p></li><li> <b> Opitions for the maps </b>
+<table border="1">
+<tbody>
+<tr>
+<td> Options
+</td><td> explanations
+</td></tr>
+<tr>
+</tr><tr>
+<td> -E add_map_n
+</td><td> Define the number of additional maps, mimimum is 1,maximum is 9
+     default is no additional map will be read
+</td></tr>
+<tr>
+<td> -eX mapfilename
+</td><td> Read-in the additional maps to superimpose on
+     the original map, X support from 0 to add_map_n-1
+     if you have 1 additional map, X should be 0 
+     (C language style)
+</td></tr>
+<tr>
+<td> -A[X] average
+</td><td> Use the NCS to average the map (average=1) or apply values from
+     one asymmetric unit to other asymmetric unit(average=2)
+     to the other asymmetric unit. X: if exist corespondent to
+     the additional maps
+</td></tr>
+<tr>
+<td> -I[X]
+</td><td> Use icosahedral recalculated radius instead of the original radius
+     X if exist coorespondent to the additional maps, this option require
+     -m to input the icosahedral matrices
+</td></tr>
+<tr>
+<td> -R[X]fix fixR
+</td><td> Define the perticular radius that need to plot,see -Rmode,default 0.0A
+     X if exist coorespondent to the additional maps
+</td></tr>
+<tr>
+<td> -R[X]beg[in] begR
+</td><td> Define the starting radius in A for density projection,default 0.0A
+     X if exist coorespondent to the additional maps
+</td></tr>
+<tr>
+<td> -R[X]end endR
+</td><td> Define the end of the radius in A for density projection,
+     default is the maximum diagonal radius of the map
+     X if exist coorespondent to the additional maps
+</td></tr>
+<tr>
+<td> -R[X]step delta_R
+</td><td> Define the increment step of the radial projection, default is the map
+     voxel size, X if exist coorespondent to the additional maps
+</td></tr>
+<tr>
+<td> -R[X]mod[e] Rmod
+</td><td> Define the radial interpretation mode,default is 1 <br>
+<ul>
+<li>Rmod = 0*:  Density between begR and endR will be 
+interpolated by the step of delta_R, the sum value will be plot <br>
+</li><li> Rmod = 1 (default): <br> 
+Density between begR and endR will be interpolated by the step 
+of delta_R, the averaged value will be plot
+</li><li> Rmod = 2: only the radius of a fix radius fixR will be plot
+</li><li> Rmod = 3: only the radius from the atoms of the PDB will 
+be plot this is useful to only plot the density coorespondent 
+to the selected atoms, also see -r options of the PDB <br>
+</li></ul>
+ X if exist coorespondent to the additional maps<br>
+<font size="-1">* be careful to use and interprete the plot that 
+use Rmod=0 because the sum of the density will have much larger 
+dynamic range than the original map. Choose the contour settings 
+of -C carefully. Using small delta_R will further increase the 
+range. It will also affect the -c color_method option 4 and 5 
+that color the residues with density map
+</font></td></tr>
+<tr>
+<td> -C[X] contour_start contour_end contour_step line_type color
+</td><td>Contour the map X in certain line type and color, 
+    X corespond to the additional map number <br><br>
+    Line_type <ul>
+    <li>=1: filled line with width 0.1
+    </li><li>=2: filled line with width 0.5
+    </li><li>=3: filled line with width 1.0
+    </li><li>=4: dash line 1 with width 0.1
+    </li><li>=5: dash line 1 with width 0.5
+    </li><li>=6: dash line 2 with width 0.1
+    </li><li>=7: dash line 2 with width 0.5
+    </li></ul>
+    Color <ul> 
+    <li>=0: Blue;
+    </li><li>=1: Red;
+    </li><li>=2: Gray;
+    </li><li>=3: Orange;
+    </li><li>=4: Yellow;
+    </li><li>=5: Tan;
+    </li><li>=6: Silver;
+    </li><li>=7: Green;
+    </li><li>=8: White;
+    </li><li>=9: Pink;
+    </li><li>=10: Cyan;
+    </li><li>=11: Purple;
+    </li><li>=12: Lime;
+    </li><li>=13: Mauve;
+    </li><li>=14: Ochre;
+    </li><li>=15: Iceblue;
+    </li><li>=16: Black.
+    </li></ul>
+</td></tr>
+</tbody>
+</table>
+<p></p></li><li> <b> Opitions for the PDB (Roadmap) </b>
+<table border="1">
+<tbody>
+<tr>
+<td> -p PDB_filename
+</td><td> Give the name for the PDB file for the Roadmap
+</td></tr>
+<tr>
+<td> -a maximum_atom_number
+</td><td> Define the maximum_atom_number,default is 500000
+</td></tr>
+<tr>
+<td> -B border_width border_color
+</td><td> Define the roadmap outline line width and border color, 
+     default line width will be automatic determined by the 
+     program based on the angular step, delta_angle(see -D); 
+     color option see -C, default color will be black(16)
+</td></tr>
+<tr>
+<td> -b add_atom_move
+</td><td> add additional atom movement in A, default 0.0, default 
+     atom radius is van der Waals radius plus the affect 
+     of temperature (B) factor
+</td></tr>
+<tr>
+<td> -l label_size label_color
+</td><td> Turn on label of the residues on the roadmap and 
+     define the label size and label color; label color option 
+     see -C; when label_size equal 0 the program will automatic 
+     determine it based on the angular step, delta_angle(see -D)
+</td></tr>
+<tr>
+<td> -rmin[imum] r_min
+</td><td> Define minimum radius for atom coordinates, atoms with radius
+     smaller than r_min will not be read in
+</td></tr>
+<tr>
+<td> -rmax[imum] r_max
+</td><td> Define maximum radius for atom coordinates, atoms with radius
+     larger than r_max will not be read in
+</td></tr>
+<tr>
+<td> -rfix r_fix
+</td><td> Define the perticular radius to find the closest atom
+</td></tr>
+<tr>
+<td> -rmod[e] r_mod
+</td><td> Define the mode of the roadmap, default is 1
+<ul>
+   <li> r_mod = 1: the outer surface (maximus radius) atoms will be plot
+   </li><li> r_mod = 2: the inner surface (mimimum radius) atoms will be plot
+   </li><li> r_mod = 3: the closest atom to r_fix will be plot
+</li></ul>
+</td></tr>
+<tr>
+<td> -xmin[imum] x_min
+</td><td> Define X minimum for atom coordinates, atoms with X
+     smaller than x_min will not be read in
+</td></tr>
+<tr>
+<td> -xmax[imum] x_max
+</td><td> Define X maximum for atom coordinates, atoms with X
+     larger than x_max will not be read in
+</td></tr>
+<tr>
+<td> -ymin[imum] y_min
+</td><td> Define Y minimum for atom coordinates, atoms with Y
+     smaller than y_min will not be read in
+</td></tr>
+<tr>
+<td> -ymax[imum] y_max
+</td><td> Define Y maximum for atom coordinates, atoms with Y
+     larger than y_max will not be read in
+</td></tr>
+<tr>
+<td> -zmin[imum] z_min
+</td><td> Define Z minimum for atom coordinates, atoms with Z
+     smaller than z_min will not be read in
+</td></tr>
+<tr>
+<td> -zmax[imum] z_max
+</td><td> Define Z maximum for atom coordinates, atoms with Z
+     larger than z_max will not be read in
+</td></tr>
+</tbody>
+</table>
+<p></p></li><li> <b> Opitions for both map and PDB  </b>
+<table border="1">
+<tbody>
+<tr>
+<td> -c color_method
+</td><td> Turn on coloring the residues on the roadmap
+<ul>
+<li> color_method = 1, color by residue type
+</li><li> color_method = 2, color by radius, from small radius (Red) to large radius(Blue)
+</li><li> color_method = 3, color by radius, from small radius (Blue) to large radius(Red)
+</li><li> color_method = 4*, color by density height, negative(red) positive(blue), the 
+     density is from the input map
+</li><li> color_method = 5*, color by density height, negative(blue) positive(red), the 
+     density is from the input map 
+</li><li> if not number**, it will be the PDB filename for the residues that need to e colored, 
+     use X Y Z in the PDB as the R G B
+</li></ul>
+<p><font size="-1"> * Only the original input map density can be used to color the 
+roadmap residues(color_method 4 and 5), all the additional map can only be plotted 
+with contoure lines using -C
+</font></p><p><font size="-1"> ** The name of the PDB file that controls the residue color needs to
+be started with letter instead of number. Otherwise it might be read as 
+a numbered option 1 to 5 </font>
+</p></td></tr>
+<tr>
+<td> -G color_mid_point
+</td><td> Define the color middle point for RGB color gradient
+     option -G and -g are related to how to make a RGB gradient
+     The formula of a RGB gradient is the same as described in VMD
+     http://www.ks.uiuc.edu/Research/vmd/vmd-1.7.1/ug/node76.html
+</td></tr>
+<tr>
+<td> -g color_min
+</td><td> Define the color minimum for RGB color gradient
+     option -G and -g are related to how to make a RGB gradient
+     The formula of a RGB gradient is the same as described in VMD
+     http://www.ks.uiuc.edu/Research/vmd/vmd-1.7.1/ug/node76.html
+</td></tr>
+<tr>
+<td> -dmin d_min
+</td><td> Set the lowest plot value for the RGB gradient, related to the
+     color_method, it can be the smdallest radius or the lowest density
+     default will be lowest radius calculated during the plot or the
+     negative maximum absolute value of the lowest and highest density
+     (-MAX(abs(density_min),abs(density_max))).For density,the input d_min
+     smaller or equal to zero
+</td></tr>
+<tr>
+<td> -dmax d_max
+</td><td> Set the highest plot value for the RGB gradient, related to the
+     color_method, it can be the largest redius or the highest density
+     default will be the highest radius calculated during the plot or the
+     positive maximum absoluted value of the lowest and highest density
+     (MAX(abs(density_min),abs(density_max))). For density, the input d_max
+     must larger than zero
+</td></tr>
+<tr>
+<td> -s plot_axis
+</td><td> Plot the icosahedral axis with plot_axis_color. 
+     plot_axis default is 0, not ploting
+     the axes are defined in the matrix_file input by option -m
+     <ul>
+     <li> plot_axis = 1 only plot the axis
+     </li><li> plot_axis = 2 plot the axis and the border of each asymmetric unit
+     </li></ul>
+</td></tr>
+<tr>
+<td> -sc axis_color
+</td><td> define axis_color, default is 16(black) see -C for color code
+</td></tr>
+<tr>
+<td> -ss symbol_size
+</td><td> define symbol_size, default is 6, can be 1 to 12
+</td></tr>
+<tr>
+<td> -sb asu_border_color
+</td><td> define asymetric unit border color, default is 16 (black), see -C 
+     for color code
+</td></tr>
+<tr>
+<td> -sl asu_border_linetype
+</td><td> define asymetric unit border_linetype, default is 3 (solid,width 1.0),
+     see -C for linetype definition
+</td></tr>
+<tr>
+<td> -m matrix_file
+</td><td> Read in the matrices for the PDB and the maps (include additonal maps),
+     the matrix_file should be in CNS ncs.def matrix format, see 
+     <a href="http://utminers.utep.edu/cxiao/programs/ncs.def">examples*</a> <br>
+     <font size="-1"> *Both NCS and map (include additional maps) rotational
+     -translational matrices are read from the matrix_file </font>
+</td></tr>
+<tr>
+<td> -M matrix_max
+</td><td> Define the maximum matrix number, default is 100
+</td></tr>
+</tbody>
+</table>
+<p></p></li><li> <b> Additional Opitions </b>
+<table border="1">
+<tbody>
+<tr>
+<td> -N axis_number axis(1)_theta axis(1)_phi axis(1)_fold axis(1)_size
+        axis(1)_color<br>  ......<br> 
+	axis(axis_number)_theta axis(axis_number)_phi
+        axis(axis_number)_fold axis(axis_number)_size axis(axis_number)_color
+</td><td> Draw additional defined symmetry symbols 
+     axis_number define how many axes. Each axis is controled by five parameters: 
+     theta, phi, fold, size and color; theta, phi should be in the plot range, 
+     fold options are 2,3,4,5,6.  Check -C for color codes
+</td></tr>
+<tr>
+<td> -L line_number line(1)_theta_start line(1)_phi_start line(1)_theta_end 
+     line(1)_phi_end line(1)_color line(1)_type<br> ......<br>
+          line(line_number)_theta_start line(line_number)_phi_start
+          line(line_number)_theta_end line(line_number)_phi_end
+          line(line_number)_color line(line_number)_type
+</td><td> Draw defined additional line (great cycle curved line) by inputting 
+     start and end polar angles and line type. The polar angle should be 
+     inside the plotting range. Check -C for color codes and line types
+</td></tr>
+<tr>
+<td> -F label_number label(1)_theta label(1)_phi lable(1)_size label(1)_color 
+      label(1)_text <br> ...... <br>
+      label(label_number)_theta label(label_number)_phi label(label_number)_size
+      label(label_number)_color label(label_number)_text
+</td><td>  Put a text label at input polar angle, the angle need to be in the plot
+      range. No space is allowed in label_text, use quotation marks. Check -C for 
+      color codes
+</td></tr>
+<tr>
+<td>  -v verbose_level
+</td><td>  Define the verbose level. Default verbose_level=1
+<ul>
+<li> 0: work quietly; 
+</li><li> 1: minimum printout; 
+</li><li> 2: extensive printout; 
+</li><li> 99: debugging printouts
+</li></ul></td></tr>
+<tr>
+<td> -h
+</td><td> Print the help manual
+</td></tr>
+<tr>
+</tr></tbody>
+</table>
+
+
+<p></p></li></a><li><a name="RIVEM"> Examples:
+
+</a><ol><a name="RIVEM">
+</a><li><a name="RIVEM"> Plot a spherical roadmap for one asymmetric unit with color of radius:
+<p><i> rivem -S 1 -l -v 1 -c 3 -dmin 110.0 -dmax 150.0 -s 2 -m ncs.def -D 0.1 
+-Pbeg 62.0 -Pend 118.0 -T beg 55.0 -Tend 95.0 -p CPV.pdb -O color_by_radius.ps</i>
+</p></a><p align="center"><a name="RIVEM"></a><a href="http://utminers.utep.edu/cxiao/programs/images/color_radius.jpg">
+<img src="manual_files/color_radius.jpg" width="800" border="0">(click to enlarge)</a>
+</p><p align="center"> Roadmaps of CPV.<br> <font size="-1"><b>A.</b> CPV surface residue plot generated 
+by the ROADMAP program (Chipman, M 1993).  Surface residues are colored according to 
+the Z value of the atom positions in the Cartesian coordinate system.  <b>B.</b> CPV surface 
+residues plotted by the RIVEM program.  Surface residues are colored based on the maximum 
+radial distance Rmax of the atom to the virus center in a spherical coordinate system. </font>
+</p></li><li> Plot a spherical roadmap for one asymmetric unit with residues in the file
+color.pdb being colored and a difference map being contoured: 
+<p><i>rivem -S 1 -C 25.0 70.0 5.0 3 1 -c color.pdb -l -v 1 -s 2 -m 
+ncs.def -D 0.1 -Rbeg 140.0 -Rend 200.0 -Pbeg 62.0 -Pend 118.0 -Tbeg 55.0
+ -Tend 95.0 -p CPV.pdb diff.xplor asym_colorresidue.ps</i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/asym_colorresidue.jpg">
+<img src="manual_files/asym_colorresidue.jpg" width="600" border="0">(click to enlarge)</a>
+</p></li><li> Plot the front half sphere with a contour of the map within a radial shell:
+<p><i>rivem -S 1 -s 2 -v 1 -m ncs.def -D 0.1 -C 25.0 70.0 5.0 3 1 -C -70.0 -25.0 5.0 5 0 
+-c 4 -E 1 -e0 diff.xplor -R0beg 140.0 -R0end 200.0 -C0 25.0 70.0 5.0 6 16 -Rmod 1 -Rbeg 110.0 
+-Rend 130.0 -Pbeg 0.0 -Pend 180.0 -Tbeg 0.0 -Tend 180.0 -c contact_color.pdb -p contact.pdb 
+diff.xplor 110.0_130.0.ps</i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/110.0_130.0.jpg">
+<img src="manual_files/110.jpg" width="600" border="0">(click to enlarge)</a>
+</p></li><li> Icosahedrally average the plotted map:
+<p><i>rivem -S 1 -C 6.0 20.0 2.0 3 1 -C -20.0 -6.0 2.0 5 0 -c 5 -v 1 -s 2 -m ncs.def 
+-A 1 -D 0.8 -Rbeg 110.0 -Rend 130.0 -Pbeg 62.0 -Pend 118.0 -Tbeg 55.0 -Tend 95.0 
+diff.xplor 110_130_average.ps </i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/110_130_average.jpg">
+<img src="manual_files/110_130_average.jpg" width="600" border="0">(click to enlarge)</a>
+</p></li><li> Roadmap colored by the calculated surface potential:
+<p><i>rivem -A 2 -c 4 -Rmod 3 -dmin -5.0 -dmax 5.0 -l -m ncs.def -v 1 -s 2 
+-D 0.1 -Pbeg 60.0 -Pend 120 .0 -Tbeg 55.0 -Tend 95.0 -p cva21.pdb 
+cva21_delphi.xplor charge.ps </i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/charge.jpg">
+<img src="manual_files/charge.jpg" width="600" border="0">(click to enlarge)</a>
+</p></li><li> Radial shell and Icosahedral shell plots:
+<p>A. <i>rivem -s 2 -m ncs.def <b>-Rbeg 732.0 -Rend 1020.0</b> 
+-C 50.0 300.0 25.0 3 1 pbcv_9A.xplor pbcv_r.ps </i>
+</p><p>B. <i>rivem -s 2 -m ncs.def <b>-I -Rbeg 900.0 -Rend 1020.0</b> 
+-C 90.0 162.0 10.0 3 1 pbcv_9A.xplor pbcv_i.ps </i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/pbcv.jpg">
+<img src="manual_files/pbcv.jpg" width="600" border="0">(click to enlarge)</a>
+</p></li><li> Additional axes, lines and labels:
+<p><i>rivem -C -150.0 -0.0 30.0 4 1 -s 2 -sc 12 -ss 10 -sb 0 -sl 7 
+-m ncs.def -Rbeg 210.0 -Rmod 0 -Pbeg 50.0 -Pend 130.0 -Tbeg 50.0 
+-Tend 130.0 -c 4  -N 2 60.0 70.0 4 12 16 80.0 115.0 6 10 5 
+-L 1 60.0 7 0.0 80.0 115.0 0 3 test.xplor -F 1 115.0 70.0 20 0 "Happy Chinese New Year" 
+additional.ps </i>
+</p><p align="center"><a href="http://utminers.utep.edu/cxiao/programs/images/additional.jpg">
+<img src="manual_files/additional.jpg" width="600" border="0">(click to enlarge)</a>
+
+
+
+</p></li></ol>
+<hr>
+<p><b> BUG REPORT</b>:
+If you meet any bugs or problems of the programs, please email me at 
+<a href="mailto:xiaoc@utep.edu">cxiao@utep.edu</a>. 
+
+<script type="text/javascript">
+<!--
+var m = "Last updated: " + document.lastModified;
+var p = m.length-8;
+document.writeln("<p align=righ class=footer>");
+document.write(m.substring(p, 0));
+document.writeln("</p>");
+ -->
+</script></p><p class="footer" align="righ">
+Last updated: 04/20/2011 </p>
+
+
+
+</li></b></body></html>
