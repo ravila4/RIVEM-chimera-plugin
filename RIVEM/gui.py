@@ -42,24 +42,25 @@ class RIVEM_GUI(ModelessDialog):
         #        label_text="Input PDB:")
         #self.inputModelList.grid(row=1, column=1)
 
-
-    def Plot(self):
-        wrapper = rivem()
-        # Get parameters from GUI
+    def updateParams(self):
         if self.inputPDBMenu.getvalue() is not None:
             input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
-            wrapper.PDB = input_pdb_path
+            self.wrapper.PDB = input_pdb_path
         matrix = self.matrixMenu.getvalue()
         if matrix == "None":
-            wrapper.matrix = None
+            self.wrapper.matrix = None
         elif matrix == "ncs":
-            wrapper.matrix = os.path.join(os.path.dirname(__file__),
-                                          "matrix_files", "ncs.def")
+            self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
+                                               "matrix_files", "ncs.def")
         elif matrix == "ncs2":
-            wrapper.matrix = os.path.join(os.path.dirname(__file__),
-                                          "matrix_files", "ncs2.def")
+            self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
+                                               "matrix_files", "ncs2.def")
+    def Plot(self):
+        # Initialize a RIVEM wrapper object
+        self.wrapper = rivem()
+        self.updateParams()
         # Run command
-        wrapper.run()
+        self.wrapper.run()
 
 #
 # ----------------------------------------------------------------------------
