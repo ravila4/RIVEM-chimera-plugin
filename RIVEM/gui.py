@@ -1,32 +1,63 @@
 """
-Last edited: 2019-03-31
+Last edited: 2019-04-09
 """
 
-import chimera
+from __future__ import print_function
 import os
 import os.path
 import Tkinter as tk
-import tkMessageBox
-import tkFileDialog
+import Pmw
 import time
+import chimera
 from chimera.baseDialog import ModelessDialog
+from chimera.widgets import MoleculeScrolledListBox
+from chimera.widgets import MoleculeOptionMenu
+from chimera import Molecule
 from chimera import dialogs
-from RIVEM import RIVEM_version
-
-
-OML = chimera.openModels.list
+from RIVEM import rivem, RIVEM_version
 
 
 class RIVEM_GUI(ModelessDialog):
     name = "RIVEM"
     title = "RIVEM v" + RIVEM_version
-    buttons = ('Run')
-    help = "https://bilbo.bio.purdue.edu/~viruswww/Rossmann_home/softwares/river_programs/rivem.php"
+    buttons = ('Plot', 'Close')
+    help = "file://" + os.path.join(os.path.dirname(__file__), "manual.html")
 
     def fillInUI(self, parent):
-        # Make a label for the Path selection box
-        testLabel = tk.Label(parent, text='Hello World!')
-        testLabel.grid(column=0, row=0)
+        # Frame to contain widgets
+        f = tk.Frame(parent)
+        # Input PDB selection dropdown
+        self.inputPDBMenu = MoleculeOptionMenu(parent, label_text="Input PDB:",
+                                            labelpos='w')
+        self.inputPDBMenu.grid(row=2, column=1)
+        # Add a model selection list
+        #self.inputModelList = MoleculeScrolledListBox(
+        #        parent, autoselect='single', labelpos='w',
+        #        label_text="Input PDB:")
+        #self.inputModelList.grid(row=1, column=1)
+
+
+    def Plot(self):
+        # Get parameters from GUI
+        input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
+        # Set command parameters
+        self.command = rivem()
+        self.command.set_input_PDB(input_pdb_path)
+        # Run command
+        self.command.run()
+
+#
+# ----------------------------------------------------------------------------
+#
+
+
+def get_model_list():
+    """Return a list of currently loaded models."""
+    from chimera import openModels as om, Molecule
+    from VolumeViewer import Volume
+    mlist = om.list(modelTypes=[Molecule, Volume])
+    mlist = ['selected atoms'] + mlist
+    return mlist
 
 
 # Register dialogs
