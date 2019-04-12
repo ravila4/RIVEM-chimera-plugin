@@ -41,10 +41,10 @@ class RIVEM_GUI(ModelessDialog):
         # Get parameters from GUI
         input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
         # Set command parameters
-        self.command = rivem()
-        self.command.set_input_PDB(input_pdb_path)
+        wrapper = rivem()
+        wrapper.set_input_PDB(input_pdb_path)
         # Run command
-        self.command.run()
+        wrapper.run()
 
 #
 # ----------------------------------------------------------------------------
