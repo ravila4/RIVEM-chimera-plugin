@@ -29,7 +29,13 @@ class RIVEM_GUI(ModelessDialog):
         # Input PDB selection dropdown
         self.inputPDBMenu = MoleculeOptionMenu(parent, label_text="Input PDB:",
                                                labelpos='w')
-        self.inputPDBMenu.grid(row=2, column=1)
+        self.inputPDBMenu.grid(row=0, column=0, sticky='w')
+        # Input matrix selection dropdown
+        self.matrixMenu = Pmw.OptionMenu(parent, initialitem="None",
+                                         label_text="Matrix file:",
+                                         labelpos='w',
+                                         items=["None", "ncs1", "ncs2"])
+        self.matrixMenu.grid(row=1, column=0, sticky='w')
         # Add a model selection list
         #self.inputModelList = MoleculeScrolledListBox(
         #        parent, autoselect='single', labelpos='w',
@@ -42,7 +48,16 @@ class RIVEM_GUI(ModelessDialog):
         # Get parameters from GUI
         if self.inputPDBMenu.getvalue() is not None:
             input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
-            wrapper.set_input_PDB(input_pdb_path)
+            wrapper.PDB = input_pdb_path
+        matrix = self.matrixMenu.getvalue()
+        if matrix == "None":
+            wrapper.matrix = None
+        elif matrix == "ncs":
+            wrapper.matrix = os.path.join(os.path.dirname(__file__),
+                                          "matrix_files", "ncs.def")
+        elif matrix == "ncs2":
+            wrapper.matrix = os.path.join(os.path.dirname(__file__),
+                                          "matrix_files", "ncs2.def")
         # Run command
         wrapper.run()
 
