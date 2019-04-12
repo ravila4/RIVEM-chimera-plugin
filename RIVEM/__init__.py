@@ -25,7 +25,12 @@ class rivem():
         self.PDB = path
         print("setting self.PDB", self.PDB)
 
+    def generate_cmd(self):
+        cmd = ["rivem", "-p", self.PDB, "-O", self.out]
+        return cmd
+
     def run(self):
-        subprocess.call(["rivem", "-p", self.PDB, "-O", self.out])
+        cmd = self.generate_cmd()
+        subprocess.call(cmd)
         print("Wrote output file to:", self.out)
 
