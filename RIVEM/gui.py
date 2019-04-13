@@ -7,6 +7,7 @@ from os import path
 import Tkinter as tk
 import Pmw
 import chimera
+from chimera import replyobj
 from chimera.baseDialog import ModelessDialog
 from chimera.widgets import MoleculeScrolledListBox
 from chimera.widgets import MoleculeOptionMenu
@@ -92,7 +93,9 @@ class RIVEM_GUI(ModelessDialog):
     def Run(self):
         """Set up command and run RIVEM executable."""
         self.updateParams()
+        replyobj.status("Running RIVEM")
         self.wrapper.run()
+        replyobj.status("Done.")
 
     def PrintCommand(self):
         """Prints the command for the current parameters."""
