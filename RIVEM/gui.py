@@ -37,6 +37,19 @@ class RIVEM_GUI(ModelessDialog):
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
+        # Color selection dropdown
+        self.color_methods = ["None",
+                              "Residue type",
+                              "Radius, small (Red) to large (Blue)",
+                              "Radius, small (Blue) to large (Red)",
+                              "Density, negative (Red) to positive (Blue)",
+                              "Density, negative (Blue) to positive (Red)",
+                              "From PDB"]
+        self.colorMenu = Pmw.OptionMenu(parent, initialitem="None",
+                                        label_text="Color method:",
+                                        labelpos='w',
+                                        items=self.color_methods)
+        self.colorMenu.grid(row=2, column=0, sticky='w')
         # Text box for printing commands
         self.cmdTxtBox = Pmw.ScrolledText(parent, label_text="Command",
                                           labelpos="n", usehullsize=1,
@@ -70,6 +83,12 @@ class RIVEM_GUI(ModelessDialog):
         elif matrix == "ncs2":
             self.wrapper.matrix = path.join(path.dirname(__file__),
                                             "matrix_files", "ncs2.def")
+        # Set color method
+        cm = self.colorMenu.getvalue()
+        cm_index = self.color_methods.index(cm)
+        color_codes = [None, "1", "2", "3", "4", "5", None]
+        # TODO: If cm_index is 6, ask for input PDB
+        self.wrapper.color_method = color_codes[cm_index]
 
     def getFetchedModelPath(self, id_code):
         """Find the path to a fetched model (one that wasn't opened from a

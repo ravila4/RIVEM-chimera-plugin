@@ -18,6 +18,7 @@ class rivem():
         self.out = path.join(self.temp_dir, "map.ps")
         self.PDB = None
         self.matrix = None
+        self.color_method = None
         # Path to rivem executable
         self.rivem_path = path.join(path.dirname(__file__), "rivem")
 
@@ -28,6 +29,8 @@ class rivem():
             cmd += ["-p", self.PDB]
         if self.matrix is not None:
             cmd += ["-m", self.matrix]
+        if self.color_method is not None:
+            cmd += ["-c", self.color_method]
         # Add output file
         cmd += ["-O", self.out]
         return cmd
