@@ -2,7 +2,6 @@
 Last edited: 2019-03-31
 """
 
-from __future__ import print_function
 import subprocess
 import tempfile
 import os
@@ -21,6 +20,7 @@ class rivem():
         self.matrix = None
 
     def generate_cmd(self):
+        """Generate the argument list from the class attributes."""
         cmd = ["rivem"]
         if self.PDB is not None:
             cmd += ["-p", self.PDB]
@@ -31,7 +31,6 @@ class rivem():
         return cmd
 
     def run(self):
+        """Run the rivem executable."""
         cmd = self.generate_cmd()
-        print("Command:", cmd)
         subprocess.call(cmd)
-        print("Wrote output file to:", self.out)
