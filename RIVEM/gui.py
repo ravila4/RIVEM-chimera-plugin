@@ -26,17 +26,22 @@ class RIVEM_GUI(ModelessDialog):
     def fillInUI(self, parent):
         """Generate GUI widgets"""
         # Frame to contain widgets
-        f = tk.Frame(parent)
+        self.inputFrame = tk.LabelFrame(parent, text="Input")
+        self.inputFrame.pack(fill="both", expand="yes")
         # Input PDB selection dropdown
-        self.inputPDBMenu = MoleculeOptionMenu(parent, label_text="Input PDB:",
+        self.inputPDBMenu = MoleculeOptionMenu(self.inputFrame,
+                                               label_text="Input PDB:",
                                                labelpos='w')
         self.inputPDBMenu.grid(row=0, column=0, sticky='w')
         # Input matrix selection dropdown
-        self.matrixMenu = Pmw.OptionMenu(parent, initialitem="None",
+        self.matrixMenu = Pmw.OptionMenu(self.inputFrame, initialitem="None",
                                          label_text="Matrix file:",
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
+        # Label Frame for color settings
+        self.colorFrame = tk.LabelFrame(parent, text="Color settings")
+        self.colorFrame.pack(fill="both", expand="yes")
         # Color selection dropdown
         self.color_methods = ["None",
                               "Residue type",
@@ -45,7 +50,7 @@ class RIVEM_GUI(ModelessDialog):
                               "Density, negative (Red) to positive (Blue)",
                               "Density, negative (Blue) to positive (Red)",
                               "From PDB"]
-        self.colorMenu = Pmw.OptionMenu(parent, initialitem="None",
+        self.colorMenu = Pmw.OptionMenu(self.colorFrame, initialitem="None",
                                         label_text="Color method:",
                                         labelpos='w',
                                         items=self.color_methods)
@@ -121,7 +126,7 @@ class RIVEM_GUI(ModelessDialog):
         self.updateParams()
         cmd = " ".join(self.wrapper.generate_cmd())
         # Show text box
-        self.cmdTxtBox.grid(sticky='s')
+        self.cmdTxtBox.pack(fill="both", expand="yes", side="bottom")
         self.cmdTxtBox.settext(cmd)
 
 
