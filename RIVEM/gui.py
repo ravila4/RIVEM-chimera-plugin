@@ -3,8 +3,7 @@ Last edited: 2019-04-09
 """
 
 from __future__ import print_function
-import os
-import os.path
+from os import path
 import Tkinter as tk
 import Pmw
 import chimera
@@ -19,9 +18,12 @@ class RIVEM_GUI(ModelessDialog):
     name = "RIVEM"
     title = "RIVEM v" + RIVEM_version
     buttons = ('Run', 'Print Command', 'Close')
-    help = "file://" + os.path.join(os.path.dirname(__file__), "manual.html")
+    help = "file://" + path.join(path.dirname(__file__), "manual.html")
+    # Initialize RIVEM wrapper object
+    wrapper = rivem()
 
     def fillInUI(self, parent):
+        """Generate GUI widgets"""
         # Frame to contain widgets
         f = tk.Frame(parent)
         # Input PDB selection dropdown
@@ -49,34 +51,55 @@ class RIVEM_GUI(ModelessDialog):
         #self.inputModelList.grid(row=1, column=1)
 
     def updateParams(self):
+        """Update wrapper attributes from GUI input."""
+        # Get path to input model
         if self.inputPDBMenu.getvalue() is not None:
             input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
+            if not path.isfile(input_pdb_path) and len(input_pdb_path) == 4:
+                # Input model is from a fetched file
+                id_code = input_pdb_path.upper()
+                input_pdb_path = self.getFetchedModelPath(id_code)
             self.wrapper.PDB = input_pdb_path
+        # Set matrix file
         matrix = self.matrixMenu.getvalue()
         if matrix == "None":
             self.wrapper.matrix = None
         elif matrix == "ncs1":
-            self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
-                                               "matrix_files", "ncs.def")
+            self.wrapper.matrix = path.join(path.dirname(__file__),
+                                            "matrix_files", "ncs.def")
         elif matrix == "ncs2":
-            self.wrapper.matrix = os.path.join(os.path.dirname(__file__),
-                                               "matrix_files", "ncs2.def")
+            self.wrapper.matrix = path.join(path.dirname(__file__),
+                                            "matrix_files", "ncs2.def")
+
+    def getFetchedModelPath(self, id_code):
+        """Find the path to a fetched model (one that wasn't opened from a
+        file)."""
+        from chimera.fetch import FETCH_PREFERENCES, FETCH_DIRECTORY
+        from chimera import preferences
+        cache_dir = preferences.get(FETCH_PREFERENCES, FETCH_DIRECTORY)
+        if cache_dir:
+            from OpenSave import tildeExpand
+            cache_dir = tildeExpand(cache_dir)
+            model_path = path.join(cache_dir, "PDB", id_code + ".pdb")
+            if not path.isfile(model_path):
+                # Check for mmCIF file
+                model_path = path.join(cache_dir, "PDB", id_code + ".cif")
+                if not isfile(model_path):
+                    model_path = None
+        else:
+            model_path = None
+        return model_path
 
     def Run(self):
         """Set up command and run RIVEM executable."""
-        # Initialize RIVEM wrapper object
-        self.wrapper = rivem()
         self.updateParams()
-        # Run command
         self.wrapper.run()
 
     def PrintCommand(self):
         """Prints the command for the current parameters."""
-        self.wrapper = rivem()
         self.updateParams()
         cmd = " ".join(self.wrapper.generate_cmd())
         self.cmdTxtBox.settext(cmd)
-        print(cmd)
 
 
 #
