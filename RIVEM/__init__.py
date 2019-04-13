@@ -21,7 +21,6 @@ class rivem():
         # Path to rivem executable
         self.rivem_path = path.join(path.dirname(__file__), "rivem")
 
-
     def generate_cmd(self):
         """Generate the argument list from the class attributes."""
         cmd = [self.rivem_path]
