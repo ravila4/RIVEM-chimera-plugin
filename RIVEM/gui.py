@@ -15,12 +15,12 @@ from RIVEM import rivem, RIVEM_version
 
 
 class RIVEM_GUI(ModelessDialog):
+    # Initialize RIVEM wrapper object
+    wrapper = rivem()
     name = "RIVEM"
     title = "RIVEM v" + RIVEM_version
     buttons = ('Run', 'Print Command', 'Close')
     help = "file://" + path.join(path.dirname(__file__), "manual.html")
-    # Initialize RIVEM wrapper object
-    wrapper = rivem()
 
     def fillInUI(self, parent):
         """Generate GUI widgets"""
@@ -39,11 +39,10 @@ class RIVEM_GUI(ModelessDialog):
         # Text box for printing commands
         self.cmdTxtBox = Pmw.ScrolledText(parent, label_text="Command",
                                           labelpos="n", usehullsize=1,
-                                          hull_width=400, hull_height=80,
+                                          hull_width=400, hull_height=100,
                                           text_padx=4, text_pady=4)
         self.cmdTxtBox.configure(text_state="disabled")
         self.cmdTxtBox.bind("<1>", lambda event: self.cmdTxtBox.focus_set())
-        self.cmdTxtBox.grid(sticky='s')
         # Add a model selection list
         #self.inputModelList = MoleculeScrolledListBox(
         #        parent, autoselect='single', labelpos='w',
@@ -84,7 +83,7 @@ class RIVEM_GUI(ModelessDialog):
             if not path.isfile(model_path):
                 # Check for mmCIF file
                 model_path = path.join(cache_dir, "PDB", id_code + ".cif")
-                if not isfile(model_path):
+                if not path.isfile(model_path):
                     model_path = None
         else:
             model_path = None
@@ -99,6 +98,8 @@ class RIVEM_GUI(ModelessDialog):
         """Prints the command for the current parameters."""
         self.updateParams()
         cmd = " ".join(self.wrapper.generate_cmd())
+        # Show text box
+        self.cmdTxtBox.grid(sticky='s')
         self.cmdTxtBox.settext(cmd)
 
 
