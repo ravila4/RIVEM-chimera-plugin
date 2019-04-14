@@ -33,8 +33,10 @@ chimera.extension.manager.registerExtension(RIVEM_EMO(__file__))
 
 # Register commands
 
+
 def runRIVEM(cmd, args):
     from RIVEM import rivem
+
 
 import Midas.midas_text
 Midas.midas_text.addCommand('rivem', runRIVEM, None, help=True)
