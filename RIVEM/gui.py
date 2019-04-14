@@ -8,7 +8,6 @@ from os import path
 import platform
 import shutil
 import subprocess
-import time
 import Tkinter as tk
 import Pmw
 from chimera import replyobj
@@ -121,6 +120,10 @@ class RIVEM_GUI(ModelessDialog):
     def Run(self):
         """Set up command and run RIVEM executable."""
         self.updateParams()
+        # Print command in text box
+        cmd = " ".join(self.wrapper.generate_cmd())
+        self.cmdTxtBox.settext(cmd)
+        # Run RIVEM
         replyobj.status("Running RIVEM")
         self.wrapper.run()
         replyobj.status("Done.")
@@ -131,18 +134,16 @@ class RIVEM_GUI(ModelessDialog):
             os.startfile(self.wrapper.out)
         else:
             subprocess.call(("xdg-open", self.wrapper.out))
-        # TODO: Find a better way to do this.
-        time.sleep(3)
-        # Clean up temp dir
-        shutil.rmtree(self.wrapper.temp_dir)
+        # TODO: Find a nice way to remove temp file.
+        # TODO: Make  generated ps file have a unique name.
 
     def PrintCommand(self):
         """Prints the command for the current parameters."""
         self.updateParams()
         cmd = " ".join(self.wrapper.generate_cmd())
+        self.cmdTxtBox.settext(cmd)
         # Show text box
         self.cmdTxtBox.pack(fill="both", expand="yes", side="bottom")
-        self.cmdTxtBox.settext(cmd)
 
 
 #
