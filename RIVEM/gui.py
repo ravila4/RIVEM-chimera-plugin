@@ -3,10 +3,14 @@ Last edited: 2019-04-09
 """
 
 from __future__ import print_function
+import os
 from os import path
+import platform
+import shutil
+import subprocess
+import time
 import Tkinter as tk
 import Pmw
-import chimera
 from chimera import replyobj
 from chimera.baseDialog import ModelessDialog
 from chimera.widgets import MoleculeScrolledListBox
@@ -63,10 +67,10 @@ class RIVEM_GUI(ModelessDialog):
         self.cmdTxtBox.configure(text_state="disabled")
         self.cmdTxtBox.bind("<1>", lambda event: self.cmdTxtBox.focus_set())
         # Add a model selection list
-        #self.inputModelList = MoleculeScrolledListBox(
-        #        parent, autoselect='single', labelpos='w',
-        #        label_text="Input PDB:")
-        #self.inputModelList.grid(row=1, column=1)
+        # self.inputModelList = MoleculeScrolledListBox(
+        #         parent, autoselect='single', labelpos='w',
+        #         label_text="Input PDB:")
+        # self.inputModelList.grid(row=1, column=1)
 
     def updateParams(self):
         """Update wrapper attributes from GUI input."""
@@ -120,6 +124,17 @@ class RIVEM_GUI(ModelessDialog):
         replyobj.status("Running RIVEM")
         self.wrapper.run()
         replyobj.status("Done.")
+        # Open generated postcrip with system viewer
+        if platform.system() == "Darwin":
+            subprocess.call(("open", self.wrapper.out))
+        elif platform.system() == "Windows":
+            os.startfile(self.wrapper.out)
+        else:
+            subprocess.call(("xdg-open", self.wrapper.out))
+        # TODO: Find a better way to do this.
+        time.sleep(3)
+        # Clean up temp dir
+        shutil.rmtree(self.wrapper.temp_dir)
 
     def PrintCommand(self):
         """Prints the command for the current parameters."""
