@@ -6,15 +6,16 @@ from __future__ import print_function
 import os
 from os import path
 import platform
-import shutil
 import subprocess
 import Tkinter as tk
 import Pmw
-from chimera import replyobj
+from chimera import replyobj, UserError
 from chimera.baseDialog import ModelessDialog
 from chimera.widgets import MoleculeScrolledListBox
 from chimera.widgets import MoleculeOptionMenu
 from chimera import dialogs
+from chimera.fetch import FETCH_PREFERENCES, FETCH_DIRECTORY
+from chimera import preferences
 from RIVEM import rivem, RIVEM_version
 
 
@@ -43,7 +44,7 @@ class RIVEM_GUI(ModelessDialog):
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
         # Label Frame for color settings
-        self.colorFrame = tk.LabelFrame(parent, text="Color settings")
+        self.colorFrame = tk.LabelFrame(parent, text="Color Settings")
         self.colorFrame.pack(fill="both", expand="yes")
         # Color selection dropdown
         self.color_methods = ["None",
@@ -80,7 +81,31 @@ class RIVEM_GUI(ModelessDialog):
                 # Input model is from a fetched file
                 id_code = input_pdb_path.upper()
                 input_pdb_path = self.getFetchedModelPath(id_code)
-            self.wrapper.PDB = input_pdb_path
+            # TODO: Handle conversion for mmCIF files.
+        else:
+            input_pdb_path = None
+        self.wrapper.PDB = input_pdb_path
+
+        # Set output path
+        # TODO: Allow user to specify a custom output path.
+        # Otherwise, default to cache_dir from the Chimera preferences
+        if input_pdb_path is not None:
+            filename = path.basename(input_pdb_path)
+            if filename.endswith(".pdb"):
+                filename = filename.replace(".pdb", ".ps")
+            else:
+                filename += ".ps"
+        cache_dir = preferences.get(FETCH_PREFERENCES, FETCH_DIRECTORY)
+        try:
+            from OpenSave import tildeExpand
+            cache_dir = tildeExpand(cache_dir)
+            if not path.exists(path.join(cache_dir, "RIVEM")):
+                os.makedirs(path.join(cache_dir, "RIVEM"))
+            out_path = path.join(cache_dir, "RIVEM", filename)
+            self.wrapper.out = out_path
+        except UnboundLocalError:
+            raise UserError("Error while setting output path.")
+
         # Set matrix file
         matrix = self.matrixMenu.getvalue()
         if matrix == "None":
@@ -101,8 +126,6 @@ class RIVEM_GUI(ModelessDialog):
     def getFetchedModelPath(self, id_code):
         """Find the path to a fetched model (one that wasn't opened from a
         file)."""
-        from chimera.fetch import FETCH_PREFERENCES, FETCH_DIRECTORY
-        from chimera import preferences
         cache_dir = preferences.get(FETCH_PREFERENCES, FETCH_DIRECTORY)
         if cache_dir:
             from OpenSave import tildeExpand
@@ -134,8 +157,6 @@ class RIVEM_GUI(ModelessDialog):
             os.startfile(self.wrapper.out)
         else:
             subprocess.call(("xdg-open", self.wrapper.out))
-        # TODO: Find a nice way to remove temp file.
-        # TODO: Make  generated ps file have a unique name.
 
     def PrintCommand(self):
         """Prints the command for the current parameters."""
@@ -152,7 +173,8 @@ class RIVEM_GUI(ModelessDialog):
 
 
 def get_model_list():
-    """Return a list of currently loaded models."""
+    """Return a list of currently loaded models.
+    This method is here for reference, and not currently used."""
     from chimera import openModels as om, Molecule
     from VolumeViewer import Volume
     mlist = om.list(modelTypes=[Molecule, Volume])
