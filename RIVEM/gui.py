@@ -29,7 +29,7 @@ class RIVEM_GUI(ModelessDialog):
 
     def fillInUI(self, parent):
         """Generate GUI widgets"""
-        # Frame to contain widgets
+        # ---------- Frame for Input settings ----------
         self.inputFrame = tk.LabelFrame(parent, text="Input")
         self.inputFrame.pack(fill="both", expand="yes")
         # Input PDB selection dropdown
@@ -43,7 +43,25 @@ class RIVEM_GUI(ModelessDialog):
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
-        # Label Frame for color settings
+
+        # ------ Frame for Plot Region settings --------
+        self.plotRegionFrame = tk.LabelFrame(parent, text="Plot Region")
+        self.plotRegionFrame.pack(fill="both", expand="yes")
+        # Variable to store radio button settings
+        self.psradio_var = tk.StringVar(value="1")
+        # Radio Button for polar system
+        psradio_opts = [(1, "Polar 1: Theta rotates from X, " +
+                         "Phi rotates from Y towards Z"),
+                        (2, "Polar 2: Theta rotates from Y, " +
+                            "Phi rotates from X away from Z")]
+        for i in range(2):
+            val, text = psradio_opts[i]
+            polarSystemRadio = tk.Radiobutton(self.plotRegionFrame, text=text,
+                                              justify='left', value=val,
+                                              variable=self.psradio_var)
+            polarSystemRadio.grid(row=i, column=0, sticky='w')
+
+        # ---------- Frame for Color settings ----------
         self.colorFrame = tk.LabelFrame(parent, text="Color Settings")
         self.colorFrame.pack(fill="both", expand="yes")
         # Color selection dropdown
