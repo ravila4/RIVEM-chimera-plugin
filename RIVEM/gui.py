@@ -47,9 +47,8 @@ class RIVEM_GUI(ModelessDialog):
         # ------ Frame for Plot Region settings --------
         self.plotRegionFrame = tk.LabelFrame(parent, text="Plot Region")
         self.plotRegionFrame.pack(fill="both", expand="yes")
-        # Variable to store radio button settings
-        self.psradio_var = tk.StringVar(value="1")
         # Radio Button for polar system
+        self.psradio_var = tk.StringVar(value="1")
         psradio_opts = [(1, "Polar 1: Theta rotates from X, " +
                          "Phi rotates from Y towards Z"),
                         (2, "Polar 2: Theta rotates from Y, " +
@@ -59,7 +58,93 @@ class RIVEM_GUI(ModelessDialog):
             polarSystemRadio = tk.Radiobutton(self.plotRegionFrame, text=text,
                                               justify='left', value=val,
                                               variable=self.psradio_var)
-            polarSystemRadio.grid(row=i, column=0, sticky='w')
+            polarSystemRadio.grid(row=i, column=0, columnspan=2, sticky='w')
+        # Open entry fields for polar angle ranges
+        self.angleGroup = Pmw.Group(self.plotRegionFrame,
+                                    tag_text="Angle Ranges")
+        self.angleGroup.grid(row=3, column=0, sticky='w')
+        # Phi
+        self.phiStartEntry = Pmw.EntryField(self.angleGroup.interior(),
+                                            label_text="Phi start: ",
+                                            labelpos='w', validate='real',
+                                            entry_width=6,
+                                            entry_justify='right', value=0.0)
+        self.phiStartEntry.grid(row=3, column=0, sticky='e')
+        self.phiEndEntry = Pmw.EntryField(self.angleGroup.interior(),
+                                          label_text=" Phi end: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=6,
+                                          entry_justify='right', value=180.0)
+        self.phiEndEntry.grid(row=3, column=1, sticky='e')
+        # Theta
+        self.thetaStartEntry = Pmw.EntryField(self.angleGroup.interior(),
+                                              label_text="Theta start: ",
+                                              labelpos='w', validate='real',
+                                              entry_width=6,
+                                              entry_justify='right', value=0.0)
+        self.thetaStartEntry.grid(row=4, column=0, sticky='e')
+        self.thetaEndEntry = Pmw.EntryField(self.angleGroup.interior(),
+                                            label_text=" Theta end: ",
+                                            labelpos='w', validate='real',
+                                            entry_width=6,
+                                            entry_justify='right', value=180.0)
+        self.thetaEndEntry.grid(row=4, column=1, sticky='e')
+        # Angle increments
+        self.angleDeltaEntry = Pmw.EntryField(
+                self.angleGroup.interior(),
+                label_text="Increment angle in steps of: ", labelpos='w',
+                validate='real', entry_width=4, entry_justify='right',
+                value=1.0)
+        self.angleDeltaEntry.grid(row=5, column=0, columnspan=2)
+        # Open entry fields for XYZ ranges
+        self.XYZGroup = Pmw.Group(self.plotRegionFrame,
+                                    tag_text="XYZ Ranges")
+        self.XYZGroup.grid(row=3, column=1, sticky='w')
+        # X
+        self.xStartEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                          label_text="X start: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=14,
+                                          entry_justify='right',
+                                          value=-3.402823e+38)
+        self.xStartEntry.grid(row=3, column=0, sticky='e')
+        self.xEndEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                        label_text=" X end: ",
+                                        labelpos='w', validate='real',
+                                        entry_width=14,
+                                        entry_justify='right',
+                                        value=3.402823e+38)
+        self.xEndEntry.grid(row=3, column=1, sticky='e')
+        # Y
+        self.yStartEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                          label_text="Y start: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=14,
+                                          entry_justify='right',
+                                          value=-3.402823e+38)
+        self.yStartEntry.grid(row=4, column=0, sticky='e')
+        self.yEndEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                        label_text=" Y end: ",
+                                        labelpos='w', validate='real',
+                                        entry_width=14,
+                                        entry_justify='right',
+                                        value=3.402823e+38)
+        self.yEndEntry.grid(row=4, column=1, sticky='e')
+        # Z
+        self.zStartEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                          label_text="Z start: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=14,
+                                          entry_justify='right',
+                                          value=-3.402823e+38)
+        self.zStartEntry.grid(row=5, column=0, sticky='e')
+        self.zEndEntry = Pmw.EntryField(self.XYZGroup.interior(),
+                                        label_text=" Z end: ",
+                                        labelpos='w', validate='real',
+                                        entry_width=14,
+                                        entry_justify='right',
+                                        value=3.402823e+38)
+        self.zEndEntry.grid(row=5, column=1, sticky='e')
 
         # ---------- Frame for Color settings ----------
         self.colorFrame = tk.LabelFrame(parent, text="Color Settings")
@@ -76,14 +161,17 @@ class RIVEM_GUI(ModelessDialog):
                                         label_text="Color method:",
                                         labelpos='w',
                                         items=self.color_methods)
-        self.colorMenu.grid(row=2, column=0, sticky='w')
-        # Text box for printing commands
+        self.colorMenu.grid(row=0, column=0, sticky='w')
+
+        # ------- Text box for printing commands -------
         self.cmdTxtBox = Pmw.ScrolledText(parent, label_text="Command",
                                           labelpos="n", usehullsize=1,
                                           hull_width=400, hull_height=100,
                                           text_padx=4, text_pady=4)
         self.cmdTxtBox.configure(text_state="disabled")
+        # Allow clicking to set focus, for copying text from text box
         self.cmdTxtBox.bind("<1>", lambda event: self.cmdTxtBox.focus_set())
+
         # Add a model selection list
         # self.inputModelList = MoleculeScrolledListBox(
         #         parent, autoselect='single', labelpos='w',
