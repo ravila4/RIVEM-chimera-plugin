@@ -13,6 +13,7 @@ from chimera import replyobj, UserError
 from chimera.baseDialog import ModelessDialog
 from chimera.widgets import MoleculeScrolledListBox
 from chimera.widgets import MoleculeOptionMenu
+from chimera.widgets import DisclosureFrame
 from chimera import dialogs
 from chimera.fetch import FETCH_PREFERENCES, FETCH_DIRECTORY
 from chimera import preferences
@@ -29,24 +30,37 @@ class RIVEM_GUI(ModelessDialog):
 
     def fillInUI(self, parent):
         """Generate GUI widgets"""
-        # ---------- Frame for Input settings ----------
-        self.inputFrame = tk.LabelFrame(parent, text="Input")
-        self.inputFrame.pack(fill="both", expand="yes")
+        self._makeInputOpts(parent)
+        self._makePlotRegionOpts(parent)
+        self._makeColorOpts(parent)
+        self._makePrintCmd(parent)
+        # Add a model selection list
+        # self.inputModelList = MoleculeScrolledListBox(
+        #         parent, autoselect='single', labelpos='w',
+        #         label_text="Input PDB:")
+        # self.inputModelList.grid(row=1, column=1)
+
+    def _makeInputOpts(self, parent):
+        """Draw collapsible frame for input options."""
+        df = DisclosureFrame(parent, text=" Input", collapsed=False)
+        df.pack(fill="x")
+        f = df.frame
         # Input PDB selection dropdown
-        self.inputPDBMenu = MoleculeOptionMenu(self.inputFrame,
-                                               label_text="Input PDB:",
+        self.inputPDBMenu = MoleculeOptionMenu(f, label_text="Input PDB:",
                                                labelpos='w')
         self.inputPDBMenu.grid(row=0, column=0, sticky='w')
         # Input matrix selection dropdown
-        self.matrixMenu = Pmw.OptionMenu(self.inputFrame, initialitem="None",
+        self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
                                          label_text="Matrix file:",
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
 
-        # ------ Frame for Plot Region settings --------
-        self.plotRegionFrame = tk.LabelFrame(parent, text="Plot Region")
-        self.plotRegionFrame.pack(fill="both", expand="yes")
+    def _makePlotRegionOpts(self, parent):
+        """Draw collapsible frame for plot region options."""
+        df = DisclosureFrame(parent, text=" Plot Region")
+        df.pack(fill="x")
+        f = df.frame
         # Radio Button for polar system
         self.psradio_var = tk.StringVar(value="1")
         psradio_opts = [(1, "Polar 1: Theta rotates from X, " +
@@ -55,13 +69,12 @@ class RIVEM_GUI(ModelessDialog):
                             "Phi rotates from X away from Z")]
         for i in range(2):
             val, text = psradio_opts[i]
-            polarSystemRadio = tk.Radiobutton(self.plotRegionFrame, text=text,
+            polarSystemRadio = tk.Radiobutton(f, text=text,
                                               justify='left', value=val,
                                               variable=self.psradio_var)
             polarSystemRadio.grid(row=i, column=0, columnspan=2, sticky='w')
         # Open entry fields for polar angle ranges
-        self.angleGroup = Pmw.Group(self.plotRegionFrame,
-                                    tag_text="Angle Ranges")
+        self.angleGroup = Pmw.Group(f, tag_text="Angle Ranges")
         self.angleGroup.grid(row=3, column=0, sticky='w')
         # Phi
         self.phiStartEntry = Pmw.EntryField(self.angleGroup.interior(),
@@ -97,8 +110,7 @@ class RIVEM_GUI(ModelessDialog):
                 value=1.0)
         self.angleDeltaEntry.grid(row=5, column=0, columnspan=2)
         # Open entry fields for XYZ ranges
-        self.XYZGroup = Pmw.Group(self.plotRegionFrame,
-                                    tag_text="XYZ Ranges")
+        self.XYZGroup = Pmw.Group(f, tag_text="XYZ Ranges")
         self.XYZGroup.grid(row=3, column=1, sticky='w')
         # X
         self.xStartEntry = Pmw.EntryField(self.XYZGroup.interior(),
@@ -146,9 +158,11 @@ class RIVEM_GUI(ModelessDialog):
                                         value=3.402823e+38)
         self.zEndEntry.grid(row=5, column=1, sticky='e')
 
-        # ---------- Frame for Color settings ----------
-        self.colorFrame = tk.LabelFrame(parent, text="Color Settings")
-        self.colorFrame.pack(fill="both", expand="yes")
+    def _makeColorOpts(self, parent):
+        """Draw collapsible frame for color options."""
+        df = DisclosureFrame(parent, text=" Color Settings")
+        df.pack(fill="x")
+        f = df.frame
         # Color selection dropdown
         self.color_methods = ["None",
                               "Residue type",
@@ -157,13 +171,13 @@ class RIVEM_GUI(ModelessDialog):
                               "Density, negative (Red) to positive (Blue)",
                               "Density, negative (Blue) to positive (Red)",
                               "From PDB"]
-        self.colorMenu = Pmw.OptionMenu(self.colorFrame, initialitem="None",
+        self.colorMenu = Pmw.OptionMenu(f, initialitem="None",
                                         label_text="Color method:",
-                                        labelpos='w',
-                                        items=self.color_methods)
+                                        labelpos='w', items=self.color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
 
-        # ------- Text box for printing commands -------
+    def _makePrintCmd(self, parent):
+        """Draw text box for printing command."""
         self.cmdTxtBox = Pmw.ScrolledText(parent, label_text="Command",
                                           labelpos="n", usehullsize=1,
                                           hull_width=400, hull_height=100,
@@ -171,12 +185,6 @@ class RIVEM_GUI(ModelessDialog):
         self.cmdTxtBox.configure(text_state="disabled")
         # Allow clicking to set focus, for copying text from text box
         self.cmdTxtBox.bind("<1>", lambda event: self.cmdTxtBox.focus_set())
-
-        # Add a model selection list
-        # self.inputModelList = MoleculeScrolledListBox(
-        #         parent, autoselect='single', labelpos='w',
-        #         label_text="Input PDB:")
-        # self.inputModelList.grid(row=1, column=1)
 
     def updateParams(self):
         """Update wrapper attributes from GUI input."""
