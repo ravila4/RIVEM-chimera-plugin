@@ -16,6 +16,8 @@ class rivem():
         self.PDB = None
         self.matrix = None
         self.color_method = None
+        self.dmin = None
+        self.dmax = None
         # Path to rivem executable
         self.rivem_path = path.join(path.dirname(__file__), "rivem")
 
@@ -28,6 +30,10 @@ class rivem():
             cmd += ["-m", self.matrix]
         if self.color_method is not None:
             cmd += ["-c", self.color_method]
+        if self.dmin is not None:
+            cmd += ["-dmin", self.dmin]
+        if self.dmax is not None:
+            cmd += ["-dmax", self.dmax]
         # Add output file
         cmd += ["-O", self.out]
         return cmd
