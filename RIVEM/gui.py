@@ -175,6 +175,16 @@ class RIVEM_GUI(ModelessDialog):
                                         label_text="Color method:",
                                         labelpos='w', items=self.color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
+        self.dMinEntry = Pmw.EntryField(f, label_text="Low color threshold: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=6,
+                                          entry_justify='right')
+        self.dMinEntry.grid(row=1, column=0, sticky='e')
+        self.dMaxEntry = Pmw.EntryField(f, label_text="High color threshold: ",
+                                          labelpos='w', validate='real',
+                                          entry_width=6,
+                                          entry_justify='right')
+        self.dMaxEntry.grid(row=2, column=0, sticky='e')
 
     def _makePrintCmd(self, parent):
         """Draw text box for printing command."""
@@ -236,6 +246,14 @@ class RIVEM_GUI(ModelessDialog):
         color_codes = [None, "1", "2", "3", "4", "5", None]
         # TODO: If cm_index is 6, ask for input PDB
         self.wrapper.color_method = color_codes[cm_index]
+        # Set dmin and dmax
+        print(self.dMinEntry.getvalue())
+        dmin = self.dMinEntry.getvalue()
+        dmax = self.dMaxEntry.getvalue()
+        if dmin is not None:
+            self.wrapper.dmin = dmin
+        if dmax is not None:
+            self.wrapper.dmax = dmax
 
     def getFetchedModelPath(self, id_code):
         """Find the path to a fetched model (one that wasn't opened from a
