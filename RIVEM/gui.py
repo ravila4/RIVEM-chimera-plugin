@@ -30,6 +30,9 @@ class RIVEM_GUI(ModelessDialog):
 
     def fillInUI(self, parent):
         """Generate GUI widgets"""
+        # Tooltips
+        self.balloon = Pmw.Balloon(parent)
+        # Widgets
         self._makeInputOpts(parent)
         self._makePlotRegionOpts(parent)
         self._makeColorOpts(parent)
@@ -49,12 +52,17 @@ class RIVEM_GUI(ModelessDialog):
         self.inputPDBMenu = MoleculeOptionMenu(f, label_text="Input PDB:",
                                                labelpos='w')
         self.inputPDBMenu.grid(row=0, column=0, sticky='w')
+        self.balloon.bind(self.inputPDBMenu, "Give the name for the PDB " +
+                          "file for the Roadmap.")
         # Input matrix selection dropdown
         self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
                                          label_text="Matrix file:",
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
+        self.balloon.bind(self.matrixMenu,
+                          "Read in the matrix for the PDB and the maps. " +
+                          "The matrix should be in CNS ncs.def format.")
 
     def _makePlotRegionOpts(self, parent):
         """Draw collapsible frame for plot region options."""
@@ -175,16 +183,34 @@ class RIVEM_GUI(ModelessDialog):
                                         label_text="Color method:",
                                         labelpos='w', items=self.color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
-        self.dMinEntry = Pmw.EntryField(f, label_text="Low color threshold: ",
-                                          labelpos='w', validate='real',
-                                          entry_width=6,
-                                          entry_justify='right')
-        self.dMinEntry.grid(row=1, column=0, sticky='e')
-        self.dMaxEntry = Pmw.EntryField(f, label_text="High color threshold: ",
-                                          labelpos='w', validate='real',
-                                          entry_width=6,
-                                          entry_justify='right')
-        self.dMaxEntry.grid(row=2, column=0, sticky='e')
+        # Color gradient settings entry fields
+        self.gradSettingsGroup = Pmw.Group(
+                f, tag_text="Color gradient settings: ")
+        self.gradSettingsGroup.grid(row=1, column=0, sticky='w')
+        self.dMinEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
+                                        label_text="Low plot threshold: ",
+                                        labelpos='w', validate='real',
+                                        entry_width=6,
+                                        entry_justify='right')
+        self.dMinEntry.grid(row=0, column=0, sticky='e')
+        self.dMaxEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
+                                        label_text="High plot threshold: ",
+                                        labelpos='w', validate='real',
+                                        entry_width=6,
+                                        entry_justify='right')
+        self.dMaxEntry.grid(row=1, column=0, sticky='e')
+        self.dColorMidEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
+                                             label_text=" Gradient mid point: ",
+                                             labelpos='w', validate='real',
+                                             entry_width=6,
+                                             entry_justify='right')
+        self.dColorMidEntry.grid(row=0, column=1, sticky='e')
+        self.dColorMinEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
+                                             label_text=" Gamma: ",
+                                             labelpos='w', validate='real',
+                                             entry_width=6,
+                                             entry_justify='right')
+        self.dColorMinEntry.grid(row=1, column=1, sticky='e')
 
     def _makePrintCmd(self, parent):
         """Draw text box for printing command."""
@@ -247,7 +273,6 @@ class RIVEM_GUI(ModelessDialog):
         # TODO: If cm_index is 6, ask for input PDB
         self.wrapper.color_method = color_codes[cm_index]
         # Set dmin and dmax
-        print(self.dMinEntry.getvalue())
         dmin = self.dMinEntry.getvalue()
         dmax = self.dMaxEntry.getvalue()
         if dmin is not None:
