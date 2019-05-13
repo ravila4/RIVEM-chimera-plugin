@@ -172,7 +172,7 @@ class RIVEM_GUI(ModelessDialog):
         df.pack(fill="x")
         f = df.frame
         # Color selection dropdown
-        self.color_methods = ["None",
+        self._color_methods = ["None",
                               "Residue type",
                               "Radius, small (Red) to large (Blue)",
                               "Radius, small (Blue) to large (Red)",
@@ -181,7 +181,7 @@ class RIVEM_GUI(ModelessDialog):
                               "From PDB"]
         self.colorMenu = Pmw.OptionMenu(f, initialitem="None",
                                         label_text="Color method:",
-                                        labelpos='w', items=self.color_methods)
+                                        labelpos='w', items=self._color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
         # Color gradient settings
         self.gradSettingsGroup = Pmw.Group(
@@ -206,7 +206,7 @@ class RIVEM_GUI(ModelessDialog):
                                    text=" Gradient midpoint: ")
         self._gradMidVar = tk.StringVar(self.gradSettingsGroup.interior())
         self.gradMidScale = tk.Scale(self.gradSettingsGroup.interior(),
-                                     from_=0, to_=1, orient="horizontal",
+                                     from_=0.1, to_=1, orient="horizontal",
                                      resolution=0.1, length=150,
                                      command=lambda x: self._gradMidVar.set(
                                          "%.1f " % float(x)), showvalue=False)
@@ -290,17 +290,25 @@ class RIVEM_GUI(ModelessDialog):
                                             "matrix_files", "ncs2.def")
         # Set color method
         cm = self.colorMenu.getvalue()
-        cm_index = self.color_methods.index(cm)
-        color_codes = [None, "1", "2", "3", "4", "5", None]
-        # TODO: If cm_index is 6, ask for input PDB
+        cm_index = self._color_methods.index(cm)
+        color_codes = [None, "1", "2", "3", "4", "5", "6"]
+        # TODO: If cm_index is 6, take input PDB
         self.wrapper.color_method = color_codes[cm_index]
-        # Set dmin and dmax
-        dmin = self.dMinEntry.getvalue()
-        dmax = self.dMaxEntry.getvalue()
-        if dmin is not None:
-            self.wrapper.dmin = dmin
-        if dmax is not None:
-            self.wrapper.dmax = dmax
+        self.wrapper.dmin = None
+        self.wrapper.dmax = None
+        self.wrapper.color_mid_point = None
+        self.wrapper.color_min = None
+        if color_codes[cm_index] is not None:
+            # Set dmin and dmax
+            dmin = self.dMinEntry.getvalue()
+            dmax = self.dMaxEntry.getvalue()
+            if dmin != "":
+                self.wrapper.dmin = dmin
+            if dmax != "":
+                self.wrapper.dmax = dmax
+            # Set color_mid_point and color_min
+            self.wrapper.color_mid_point = str(self.gradMidScale.get())
+            self.wrapper.color_min = str(self.gammaScale.get())
 
     def getFetchedModelPath(self, id_code):
         """Find the path to a fetched model (one that wasn't opened from a
