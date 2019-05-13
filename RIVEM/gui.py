@@ -61,7 +61,7 @@ class RIVEM_GUI(ModelessDialog):
                                          items=["None", "ncs1", "ncs2"])
         self.matrixMenu.grid(row=1, column=0, sticky='w')
         self.balloon.bind(self.matrixMenu,
-                          "Read in the matrix for the PDB and the maps. " +
+                          "Read in the matrix for the PDB and the maps.\n" +
                           "The matrix should be in CNS ncs.def format.")
 
     def _makePlotRegionOpts(self, parent):
@@ -183,34 +183,56 @@ class RIVEM_GUI(ModelessDialog):
                                         label_text="Color method:",
                                         labelpos='w', items=self.color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
-        # Color gradient settings entry fields
+        # Color gradient settings
         self.gradSettingsGroup = Pmw.Group(
-                f, tag_text="Color gradient settings: ")
+                f, tag_text="Color Gradient Settings")
         self.gradSettingsGroup.grid(row=1, column=0, sticky='w')
+        # dMin
         self.dMinEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
-                                        label_text="Low plot threshold: ",
+                                        label_text="Low threshold: ",
                                         labelpos='w', validate='real',
-                                        entry_width=6,
+                                        entry_width=8,
                                         entry_justify='right')
         self.dMinEntry.grid(row=0, column=0, sticky='e')
+        # dMax
         self.dMaxEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
-                                        label_text="High plot threshold: ",
+                                        label_text="High threshold: ",
                                         labelpos='w', validate='real',
-                                        entry_width=6,
+                                        entry_width=8,
                                         entry_justify='right')
         self.dMaxEntry.grid(row=1, column=0, sticky='e')
-        self.dColorMidEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
-                                             label_text=" Gradient mid point: ",
-                                             labelpos='w', validate='real',
-                                             entry_width=6,
-                                             entry_justify='right')
-        self.dColorMidEntry.grid(row=0, column=1, sticky='e')
-        self.dColorMinEntry = Pmw.EntryField(self.gradSettingsGroup.interior(),
-                                             label_text=" Gamma: ",
-                                             labelpos='w', validate='real',
-                                             entry_width=6,
-                                             entry_justify='right')
-        self.dColorMinEntry.grid(row=1, column=1, sticky='e')
+        # color_mid_point
+        self.gradMidLbl = tk.Label(self.gradSettingsGroup.interior(),
+                                   text=" Gradient midpoint: ")
+        self._gradMidVar = tk.StringVar(self.gradSettingsGroup.interior())
+        self.gradMidScale = tk.Scale(self.gradSettingsGroup.interior(),
+                                     from_=0, to_=1, orient="horizontal",
+                                     resolution=0.1, length=150,
+                                     command=lambda x: self._gradMidVar.set(
+                                         "%.1f " % float(x)), showvalue=False)
+        self.gradMidScale.set(0.5)
+        self._gradMidVar.set("0.5 ")
+        self.gradMidStatusLbl = tk.Label(self.gradSettingsGroup.interior(),
+                                         textvariable=self._gradMidVar)
+        self.gradMidLbl.grid(row=0, column=1, sticky='e')
+        self.gradMidScale.grid(row=0, column=2, sticky='w')
+        self.gradMidStatusLbl.grid(row=0, column=3, sticky='w')
+        # color_min
+        self.gammaLbl = tk.Label(self.gradSettingsGroup.interior(),
+                                 text=" Gradient gamma: ")
+        self._gammaVar = tk.StringVar(self.gradSettingsGroup.interior())
+        self.gammaScale = tk.Scale(self.gradSettingsGroup.interior(),
+                                   from_=-1, to_=1, orient="horizontal",
+                                   resolution=0.1, length=150,
+                                   command=lambda x: self._gammaVar.set(
+                                       "%.1f " % float(x)), showvalue=False)
+        self.gammaScale.set(0.0)
+        self._gammaVar.set("0.0 ")
+        self.gammaStatusLbl = tk.Label(self.gradSettingsGroup.interior(),
+                                         textvariable=self._gammaVar)
+        self.gammaLbl.grid(row=1, column=1, sticky='e')
+        self.gammaScale.grid(row=1, column=2, sticky='w')
+        self.gammaStatusLbl.grid(row=1, column=3, sticky='w')
 
     def _makePrintCmd(self, parent):
         """Draw text box for printing command."""
