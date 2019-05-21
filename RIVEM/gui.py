@@ -63,6 +63,8 @@ class RIVEM_GUI(ModelessDialog):
         self.balloon.bind(self.matrixMenu,
                           "Read in the matrix for the PDB and the maps.\n" +
                           "The matrix should be in CNS ncs.def format.")
+        # Resudue label options for PDB
+        self.residueLabelCheckBox = 
 
     def _makePlotRegionOpts(self, parent):
         """Draw collapsible frame for plot region options."""
@@ -173,15 +175,15 @@ class RIVEM_GUI(ModelessDialog):
         f = df.frame
         # Color selection dropdown
         self._color_methods = ["None",
-                              "Residue type",
-                              "Radius, small (Red) to large (Blue)",
-                              "Radius, small (Blue) to large (Red)",
-                              "Density, negative (Red) to positive (Blue)",
-                              "Density, negative (Blue) to positive (Red)",
-                              "From PDB"]
-        self.colorMenu = Pmw.OptionMenu(f, initialitem="None",
-                                        label_text="Color method:",
-                                        labelpos='w', items=self._color_methods)
+                               "Residue type",
+                               "Radius, small (Red) to large (Blue)",
+                               "Radius, small (Blue) to large (Red)",
+                               "Density, negative (Red) to positive (Blue)",
+                               "Density, negative (Blue) to positive (Red)",
+                               "From PDB"]
+        self.colorMenu = Pmw.OptionMenu(
+                f, initialitem="None", label_text="Color method:",
+                labelpos='w', items=self._color_methods)
         self.colorMenu.grid(row=0, column=0, sticky='w')
         # Color gradient settings
         self.gradSettingsGroup = Pmw.Group(
@@ -229,7 +231,7 @@ class RIVEM_GUI(ModelessDialog):
         self.gammaScale.set(0.0)
         self._gammaVar.set("0.0 ")
         self.gammaStatusLbl = tk.Label(self.gradSettingsGroup.interior(),
-                                         textvariable=self._gammaVar)
+                                       textvariable=self._gammaVar)
         self.gammaLbl.grid(row=1, column=1, sticky='e')
         self.gammaScale.grid(row=1, column=2, sticky='w')
         self.gammaStatusLbl.grid(row=1, column=3, sticky='w')
@@ -257,7 +259,6 @@ class RIVEM_GUI(ModelessDialog):
         else:
             input_pdb_path = None
         self.wrapper.PDB = input_pdb_path
-
         # Set output path
         # TODO: Allow user to specify a custom output path.
         # Otherwise, default to cache_dir from the Chimera preferences
@@ -277,7 +278,6 @@ class RIVEM_GUI(ModelessDialog):
             self.wrapper.out = out_path
         except UnboundLocalError:
             raise UserError("Error while setting output path.")
-
         # Set matrix file
         matrix = self.matrixMenu.getvalue()
         if matrix == "None":
@@ -288,10 +288,66 @@ class RIVEM_GUI(ModelessDialog):
         elif matrix == "ncs2":
             self.wrapper.matrix = path.join(path.dirname(__file__),
                                             "matrix_files", "ncs2.def")
+        # Set plot region
+        begPhi = self.phiStartEntry.getvalue()
+        endPhi = self.phiEndEntry.getvalue()
+        begTheta = self.thetaStartEntry.getvalue()
+        endTheta = self.thetaEndEntry.getvalue()
+        deltaAngle = self.angleDeltaEntry.getvalue()
+        begX = self.xStartEntry.getvalue()
+        endX = self.xEndEntry.getvalue()
+        begY = self.yStartEntry.getvalue()
+        endY = self.yEndEntry.getvalue()
+        begZ = self.zStartEntry.getvalue()
+        endZ = self.zEndEntry.getvalue()
+        if begPhi != "":
+            self.wrapper.begPhi = float(begPhi)
+        else:
+            self.wrapper.begPhi = 0.0
+        if endPhi != "":
+            self.wrapper.endPhi = float(endPhi)
+        else:
+            self.wrapper.endPhi = 180.0
+        if begTheta != "":
+            self.wrapper.begTheta = float(begTheta)
+        else:
+            self.wrapper.begTheta = 0.0
+        if endTheta != "":
+            self.wrapper.endTheta = float(endTheta)
+        else:
+            self.wrapper.endTheta = 180.0
+        if deltaAngle != "":
+            self.wrapper.deltaAngle = float(deltaAngle)
+        else:
+            self.wrapper.deltaAngle = 1.0
+        if begX != "":
+            self.wrapper.begX = float(begX)
+        else:
+            self.wrapper.begX = -3.402823e+38
+        if endX != "":
+            self.wrapper.endX = float(endX)
+        else:
+            self.wrapper.endX = 3.402823e+38
+        if begY != "":
+            self.wrapper.begY = float(begY)
+        else:
+            self.wrapper.begY = -3.402823e+38
+        if endY != "":
+            self.wrapper.endY = float(endY)
+        else:
+            self.wrapper.endY = 3.402823e+38
+        if begZ != "":
+            self.wrapper.begZ = float(begZ)
+        else:
+            self.wrapper.begZ = -3.402823e+38
+        if endZ != "":
+            self.wrapper.endZ = float(endZ)
+        else:
+            self.wrapper.endZ = 3.402823e+38
         # Set color method
         cm = self.colorMenu.getvalue()
         cm_index = self._color_methods.index(cm)
-        color_codes = [None, "1", "2", "3", "4", "5", "6"]
+        color_codes = [None, 1, 2, 3, 4, 5, 6]
         # TODO: If cm_index is 6, take input PDB
         self.wrapper.color_method = color_codes[cm_index]
         self.wrapper.dmin = None
@@ -331,6 +387,7 @@ class RIVEM_GUI(ModelessDialog):
         """Set up command and run RIVEM executable."""
         self.updateParams()
         # Print command in text box
+        # TODO: This part goes away after replacing with a messagebox.
         cmd = " ".join(self.wrapper.generate_cmd())
         self.cmdTxtBox.settext(cmd)
         # Run RIVEM
