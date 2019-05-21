@@ -59,12 +59,30 @@ class RIVEM_GUI(ModelessDialog):
                                          label_text="Matrix file:",
                                          labelpos='w',
                                          items=["None", "ncs1", "ncs2"])
-        self.matrixMenu.grid(row=1, column=0, sticky='w')
+        self.matrixMenu.grid(row=2, column=0, sticky='w')
         self.balloon.bind(self.matrixMenu,
                           "Read in the matrix for the PDB and the maps.\n" +
                           "The matrix should be in CNS ncs.def format.")
         # Resudue label options for PDB
-        self.residueLabelCheckBox = 
+        self._labelVar = tk.IntVar()
+        self.residueLabelCheckBox = tk.Checkbutton(
+                f, text="Add residue labels", variable=self._labelVar)
+        self.residueLabelCheckBox.grid(row=0, column=1, sticky='w')
+        self._colorContourOpts = {"Blue": 0, "Red": 1, "Gray": 2,
+                                  "Orange": 3, "Yellow": 4, "Tan": 5,
+                                  "Silver": 6, "Green": 7, "White": 8,
+                                  "Pink": 9, "Cyan": 10, "Purple": 11,
+                                  "Lime": 12, "Mauve": 13, "Ochre": 14,
+                                  "Iceblue": 15, "Black": 16}
+        self.residueLabelColor = Pmw.OptionMenu(
+                f, initialitem="Black", label_text="Label color:",
+                labelpos='w', items=self._colorContourOpts)
+        self.residueLabelColor.grid(row=1, column=1, sticky='w')
+        self.residueLabelSize = Pmw.EntryField(f, label_text=" Label size:",
+                                               labelpos='w', validate='real',
+                                               entry_width=3,
+                                               entry_justify='right', value=0)
+        self.residueLabelSize.grid(row=1, column=2, sticky='w')
 
     def _makePlotRegionOpts(self, parent):
         """Draw collapsible frame for plot region options."""
@@ -288,6 +306,17 @@ class RIVEM_GUI(ModelessDialog):
         elif matrix == "ncs2":
             self.wrapper.matrix = path.join(path.dirname(__file__),
                                             "matrix_files", "ncs2.def")
+        # Residue labels
+        self.wrapper.label = self._labelVar.get()
+        if self._labelVar.get() == 1:
+            # Show label size and color options
+            size = self.residueLabelSize.getvalue()
+            if size != "":
+                self.wrapper.label_size = int(size)
+            else:
+                self.wrapper.label_size = 0
+            color = self.residueLabelColor.getvalue()
+            self.wrapper.label_color = self._colorContourOpts[color]
         # Set plot region
         begPhi = self.phiStartEntry.getvalue()
         endPhi = self.phiEndEntry.getvalue()
@@ -363,8 +392,8 @@ class RIVEM_GUI(ModelessDialog):
             if dmax != "":
                 self.wrapper.dmax = dmax
             # Set color_mid_point and color_min
-            self.wrapper.color_mid_point = str(self.gradMidScale.get())
-            self.wrapper.color_min = str(self.gammaScale.get())
+            self.wrapper.color_mid_point = self.gradMidScale.get()
+            self.wrapper.color_min = self.gammaScale.get()
 
     def getFetchedModelPath(self, id_code):
         """Find the path to a fetched model (one that wasn't opened from a
