@@ -15,9 +15,9 @@ class rivem():
         self.out = None
         self.PDB = None
         self.matrix = None
-        self.label = None
-        self.label_size = None
-        self.label_color = None
+        self.label = 0
+        self.label_size = 0
+        self.label_color = 16
         self.polar = 1
         self.begPhi = 0.0
         self.endPhi = 180.0
@@ -45,12 +45,10 @@ class rivem():
             cmd += ["-p", self.PDB]
         if self.matrix is not None:
             cmd += ["-m", self.matrix]
-        if self.label is not None:
+        if self.label == 1:
             cmd += ["-l"]
-            if self.label_size is not None:
-                cmd += [self.label_size]
-            if self.label_color is not None:
-                cmd += [self.label_color]
+            cmd += [self.label_size]
+            cmd += [self.label_color]
         if self.begPhi != 0.0:
             cmd += ["-Pbeg", self.begPhi]
         if self.endPhi != 180.0:
