@@ -48,8 +48,11 @@ class RIVEM_GUI(ModelessDialog):
         df = DisclosureFrame(parent, text=" Input", collapsed=False)
         df.pack(fill="x")
         f = df.frame
+        self.PDBGroup = Pmw.Group(f, tag_text="PDB Options")
+        self.PDBGroup.grid(row=0, column=0, sticky='w')
         # Input PDB selection dropdown
-        self.inputPDBMenu = MoleculeOptionMenu(f, label_text="Input PDB:",
+        self.inputPDBMenu = MoleculeOptionMenu(self.PDBGroup.interior(),
+                                               label_text="Input PDB:",
                                                labelpos='w')
         self.inputPDBMenu.grid(row=0, column=0, sticky='w')
         self.balloon.bind(self.inputPDBMenu, "Give the name for the PDB " +
@@ -57,7 +60,8 @@ class RIVEM_GUI(ModelessDialog):
         # Resudue label options for PDB
         self._labelVar = tk.IntVar()
         self.residueLabelCheckBox = tk.Checkbutton(
-                f, text="Add residue labels", variable=self._labelVar)
+                self.PDBGroup.interior(), text="Add residue labels",
+                variable=self._labelVar)
         self.residueLabelCheckBox.grid(row=1, column=0, sticky='e')
         self._colorContourOpts = {"Blue": 0, "Red": 1, "Gray": 2,
                                   "Orange": 3, "Yellow": 4, "Tan": 5,
@@ -66,21 +70,23 @@ class RIVEM_GUI(ModelessDialog):
                                   "Lime": 12, "Mauve": 13, "Ochre": 14,
                                   "Iceblue": 15, "Black": 16}
         self.residueLabelColor = Pmw.OptionMenu(
-                f, initialitem="Black", label_text=" Label color:",
-                labelpos='w', items=self._colorContourOpts)
+                self.PDBGroup.interior(), initialitem="Black",
+                label_text=" Label color:", labelpos='w',
+                items=self._colorContourOpts)
         self.residueLabelColor.grid(row=1, column=1, sticky='w')
-        self.residueLabelSize = Pmw.EntryField(f, label_text=" Label size:",
+        self.residueLabelSize = Pmw.EntryField(self.PDBGroup.interior(),
+                                               label_text=" Label size:",
                                                labelpos='w', validate='real',
                                                entry_width=3,
                                                entry_justify='right', value=0)
         self.residueLabelSize.grid(row=1, column=2, sticky='w')
-        # Plot icosahedral axis
-        self.plotAxis = Pmw.OptionMenu(
-                f, initialitem="Don't plot axis",
-                label_text="Icosahedral axis:", labelpos='w',
-                items=["Don't plot axis", "Plot only the axis",
-                       "Plot axis and the border of asymmetric units"])
-        self.plotAxis.grid(row=2, column=0, sticky='w')
+        # Plot axes of symmetry
+        self.plotAxes = Pmw.OptionMenu(
+                f, initialitem="Don't plot axes",
+                label_text="Axes of symmetry:", labelpos='w',
+                items=["Don't plot axes", "Plot only the axes",
+                       "Plot axes and the border of asymmetric units"])
+        self.plotAxes.grid(row=2, column=0, sticky='w')
         # Input matrix selection dropdown
         self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
                                          label_text="Matrix file:",
@@ -329,13 +335,13 @@ class RIVEM_GUI(ModelessDialog):
             color = self.residueLabelColor.getvalue()
             self.wrapper.label_color = self._colorContourOpts[color]
         # Plot axes
-        plot_axis = self.plotAxis.getvalue()
-        if plot_axis == "Don't plot axis":
-            self.wrapper.plot_axis = 0
-        if plot_axis == "Plot only the axis":
-            self.wrapper.plot_axis = 1
-        if plot_axis == "Plot axis and the border of asymmetric units":
-            self.wrapper.plot_axis = 2
+        plot_axes = self.plotAxes.getvalue()
+        if plot_axes == "Don't plot axes":
+            self.wrapper.plot_axes = 0
+        if plot_axes == "Plot only the axes":
+            self.wrapper.plot_axes = 1
+        if plot_axes == "Plot axes and the border of asymmetric units":
+            self.wrapper.plot_axes = 2
         # Set plot region
         begPhi = self.phiStartEntry.getvalue()
         endPhi = self.phiEndEntry.getvalue()

@@ -18,7 +18,7 @@ class rivem():
         self.label = 0
         self.label_size = 0
         self.label_color = 16
-        self.plot_axis = 0
+        self.plot_axes = 0
         self.polar = 1
         self.begPhi = 0.0
         self.endPhi = 180.0
@@ -51,8 +51,8 @@ class rivem():
             cmd += ["-l"]
             cmd += [self.label_size]
             cmd += [self.label_color]
-        if self.plot_axis != 0:
-            cmd += ["-s", self.plot_axis]
+        if self.plot_axes != 0:
+            cmd += ["-s", self.plot_axes]
         if self.begPhi != 0.0:
             cmd += ["-Pbeg", self.begPhi]
         if self.endPhi != 180.0:
