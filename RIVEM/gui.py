@@ -54,20 +54,11 @@ class RIVEM_GUI(ModelessDialog):
         self.inputPDBMenu.grid(row=0, column=0, sticky='w')
         self.balloon.bind(self.inputPDBMenu, "Give the name for the PDB " +
                           "file for the Roadmap.")
-        # Input matrix selection dropdown
-        self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
-                                         label_text="Matrix file:",
-                                         labelpos='w',
-                                         items=["None", "ncs1", "ncs2"])
-        self.matrixMenu.grid(row=2, column=0, sticky='w')
-        self.balloon.bind(self.matrixMenu,
-                          "Read in the matrix for the PDB and the maps.\n" +
-                          "The matrix should be in CNS ncs.def format.")
         # Resudue label options for PDB
         self._labelVar = tk.IntVar()
         self.residueLabelCheckBox = tk.Checkbutton(
                 f, text="Add residue labels", variable=self._labelVar)
-        self.residueLabelCheckBox.grid(row=0, column=1, sticky='w')
+        self.residueLabelCheckBox.grid(row=1, column=0, sticky='e')
         self._colorContourOpts = {"Blue": 0, "Red": 1, "Gray": 2,
                                   "Orange": 3, "Yellow": 4, "Tan": 5,
                                   "Silver": 6, "Green": 7, "White": 8,
@@ -75,7 +66,7 @@ class RIVEM_GUI(ModelessDialog):
                                   "Lime": 12, "Mauve": 13, "Ochre": 14,
                                   "Iceblue": 15, "Black": 16}
         self.residueLabelColor = Pmw.OptionMenu(
-                f, initialitem="Black", label_text="Label color:",
+                f, initialitem="Black", label_text=" Label color:",
                 labelpos='w', items=self._colorContourOpts)
         self.residueLabelColor.grid(row=1, column=1, sticky='w')
         self.residueLabelSize = Pmw.EntryField(f, label_text=" Label size:",
@@ -83,6 +74,22 @@ class RIVEM_GUI(ModelessDialog):
                                                entry_width=3,
                                                entry_justify='right', value=0)
         self.residueLabelSize.grid(row=1, column=2, sticky='w')
+        # Plot icosahedral axis
+        self.plotAxis = Pmw.OptionMenu(
+                f, initialitem="Don't plot axis",
+                label_text="Icosahedral axis:", labelpos='w',
+                items=["Don't plot axis", "Plot only the axis",
+                       "Plot axis and the border of asymmetric units"])
+        self.plotAxis.grid(row=2, column=0, sticky='w')
+        # Input matrix selection dropdown
+        self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
+                                         label_text="Matrix file:",
+                                         labelpos='w',
+                                         items=["None", "ncs1", "ncs2"])
+        self.matrixMenu.grid(row=3, column=0, sticky='w')
+        self.balloon.bind(self.matrixMenu,
+                          "Read in the matrix for the PDB and the maps.\n" +
+                          "The matrix should be in CNS ncs.def format.")
 
     def _makePlotRegionOpts(self, parent):
         """Draw collapsible frame for plot region options."""
@@ -200,7 +207,7 @@ class RIVEM_GUI(ModelessDialog):
                                "Density, negative (Blue) to positive (Red)": 5,
                                "From PDB": 6}
         self._color_methods_sort = sorted(self._color_methods,
-                                     key=self._color_methods.get)
+                                          key=self._color_methods.get)
         self.colorMenu = Pmw.OptionMenu(
                 f, initialitem="None", label_text="Color method:",
                 labelpos='w', items=self._color_methods_sort)
@@ -268,6 +275,8 @@ class RIVEM_GUI(ModelessDialog):
 
     def updateParams(self):
         """Update wrapper attributes from GUI input."""
+        # Set polar system
+        self.wrapper.polar = self.psradio_var.get()
         # Get path to input model
         if self.inputPDBMenu.getvalue() is not None:
             input_pdb_path = self.inputPDBMenu.getvalue().openedAs[0]
@@ -319,6 +328,14 @@ class RIVEM_GUI(ModelessDialog):
                 self.wrapper.label_size = 0
             color = self.residueLabelColor.getvalue()
             self.wrapper.label_color = self._colorContourOpts[color]
+        # Plot axes
+        plot_axis = self.plotAxis.getvalue()
+        if plot_axis == "Don't plot axis":
+            self.wrapper.plot_axis = 0
+        if plot_axis == "Plot only the axis":
+            self.wrapper.plot_axis = 1
+        if plot_axis == "Plot axis and the border of asymmetric units":
+            self.wrapper.plot_axis = 2
         # Set plot region
         begPhi = self.phiStartEntry.getvalue()
         endPhi = self.phiEndEntry.getvalue()

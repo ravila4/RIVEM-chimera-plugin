@@ -18,6 +18,7 @@ class rivem():
         self.label = 0
         self.label_size = 0
         self.label_color = 16
+        self.plot_axis = 0
         self.polar = 1
         self.begPhi = 0.0
         self.endPhi = 180.0
@@ -41,6 +42,7 @@ class rivem():
     def generate_cmd(self):
         """Generate the argument list from the class attributes."""
         cmd = [self.rivem_path]
+        cmd += ["-S", self.polar]
         if self.PDB is not None:
             cmd += ["-p", self.PDB]
         if self.matrix is not None:
@@ -49,6 +51,8 @@ class rivem():
             cmd += ["-l"]
             cmd += [self.label_size]
             cmd += [self.label_color]
+        if self.plot_axis != 0:
+            cmd += ["-s", self.plot_axis]
         if self.begPhi != 0.0:
             cmd += ["-Pbeg", self.begPhi]
         if self.endPhi != 180.0:
