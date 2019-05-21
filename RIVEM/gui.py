@@ -192,16 +192,18 @@ class RIVEM_GUI(ModelessDialog):
         df.pack(fill="x")
         f = df.frame
         # Color selection dropdown
-        self._color_methods = ["None",
-                               "Residue type",
-                               "Radius, small (Red) to large (Blue)",
-                               "Radius, small (Blue) to large (Red)",
-                               "Density, negative (Red) to positive (Blue)",
-                               "Density, negative (Blue) to positive (Red)",
-                               "From PDB"]
+        self._color_methods = {"None": None,
+                               "Residue type": 1,
+                               "Radius, small (Red) to large (Blue)": 2,
+                               "Radius, small (Blue) to large (Red)": 3,
+                               "Density, negative (Red) to positive (Blue)": 4,
+                               "Density, negative (Blue) to positive (Red)": 5,
+                               "From PDB": 6}
+        self._color_methods_sort = sorted(self._color_methods,
+                                     key=self._color_methods.get)
         self.colorMenu = Pmw.OptionMenu(
                 f, initialitem="None", label_text="Color method:",
-                labelpos='w', items=self._color_methods)
+                labelpos='w', items=self._color_methods_sort)
         self.colorMenu.grid(row=0, column=0, sticky='w')
         # Color gradient settings
         self.gradSettingsGroup = Pmw.Group(
@@ -375,15 +377,13 @@ class RIVEM_GUI(ModelessDialog):
             self.wrapper.endZ = 3.402823e+38
         # Set color method
         cm = self.colorMenu.getvalue()
-        cm_index = self._color_methods.index(cm)
-        color_codes = [None, 1, 2, 3, 4, 5, 6]
-        # TODO: If cm_index is 6, take input PDB
-        self.wrapper.color_method = color_codes[cm_index]
+        # TODO: If color method is 6, take input PDB
+        self.wrapper.color_method = self._color_methods[cm]
         self.wrapper.dmin = None
         self.wrapper.dmax = None
         self.wrapper.color_mid_point = None
         self.wrapper.color_min = None
-        if color_codes[cm_index] is not None:
+        if self._color_methods[cm] is not None:
             # Set dmin and dmax
             dmin = self.dMinEntry.getvalue()
             dmax = self.dMaxEntry.getvalue()
