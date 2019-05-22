@@ -62,7 +62,7 @@ class RIVEM_GUI(ModelessDialog):
         self.residueLabelCheckBox = tk.Checkbutton(
                 self.PDBGroup.interior(), text="Add residue labels",
                 variable=self._labelVar)
-        self.residueLabelCheckBox.grid(row=1, column=0, sticky='e')
+        self.residueLabelCheckBox.grid(row=1, column=0)
         self._colorContourOpts = {"Blue": 0, "Red": 1, "Gray": 2,
                                   "Orange": 3, "Yellow": 4, "Tan": 5,
                                   "Silver": 6, "Green": 7, "White": 8,
@@ -71,7 +71,7 @@ class RIVEM_GUI(ModelessDialog):
                                   "Iceblue": 15, "Black": 16}
         self.residueLabelColor = Pmw.OptionMenu(
                 self.PDBGroup.interior(), initialitem="Black",
-                label_text=" Label color:", labelpos='w',
+                label_text="Label color:", labelpos='w',
                 items=self._colorContourOpts)
         self.residueLabelColor.grid(row=1, column=1, sticky='w')
         self.residueLabelSize = Pmw.EntryField(self.PDBGroup.interior(),
