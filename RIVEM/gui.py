@@ -63,6 +63,8 @@ class RIVEM_GUI(ModelessDialog):
                 self.PDBGroup.interior(), text="Add residue labels",
                 variable=self._labelVar)
         self.residueLabelCheckBox.grid(row=1, column=0)
+        self.balloon.bind(self.residueLabelCheckBox, "Check to show 3-letter" +
+                          " residue codes and numbers.")
         self._colorContourOpts = {"Blue": 0, "Red": 1, "Gray": 2,
                                   "Orange": 3, "Yellow": 4, "Tan": 5,
                                   "Silver": 6, "Green": 7, "White": 8,
@@ -74,28 +76,35 @@ class RIVEM_GUI(ModelessDialog):
                 label_text="Label color:", labelpos='w',
                 items=self._colorContourOpts)
         self.residueLabelColor.grid(row=1, column=1, sticky='w')
+        self.balloon.bind(self.residueLabelColor, "Select the color for " +
+                          "the residue labels.")
         self.residueLabelSize = Pmw.EntryField(self.PDBGroup.interior(),
                                                label_text=" Label size:",
                                                labelpos='w', validate='real',
                                                entry_width=3,
                                                entry_justify='right', value=0)
         self.residueLabelSize.grid(row=1, column=2, sticky='w')
+        self.balloon.bind(self.residueLabelSize, "Select label size.\nWhen 0 "
+                          "is selected, the size is determined automatically.")
+        # Input matrix selection dropdown
+        self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
+                                         label_text="Matrix file:",
+                                         labelpos='w',
+                                         items=["None", "ncs1", "ncs2"])
+        self.matrixMenu.grid(row=2, column=0, sticky='w')
+        self.balloon.bind(self.matrixMenu,
+                          "Read in the transformation matrix for the PDB " +
+                          "and the maps.\nThe matrix should be in CNS " +
+                          "ncs.def format.")
         # Plot axes of symmetry
         self.plotAxes = Pmw.OptionMenu(
                 f, initialitem="Don't plot axes",
                 label_text="Axes of symmetry:", labelpos='w',
                 items=["Don't plot axes", "Plot only the axes",
                        "Plot axes and the border of asymmetric units"])
-        self.plotAxes.grid(row=2, column=0, sticky='w')
-        # Input matrix selection dropdown
-        self.matrixMenu = Pmw.OptionMenu(f, initialitem="None",
-                                         label_text="Matrix file:",
-                                         labelpos='w',
-                                         items=["None", "ncs1", "ncs2"])
-        self.matrixMenu.grid(row=3, column=0, sticky='w')
-        self.balloon.bind(self.matrixMenu,
-                          "Read in the matrix for the PDB and the maps.\n" +
-                          "The matrix should be in CNS ncs.def format.")
+        self.plotAxes.grid(row=3, column=0, sticky='w')
+        self.balloon.bind(self.plotAxes, "How to draw axes of symmetry.\n" +
+                          "Axes are defined in the matrix file.")
 
     def _makePlotRegionOpts(self, parent):
         """Draw collapsible frame for plot region options."""
@@ -114,6 +123,7 @@ class RIVEM_GUI(ModelessDialog):
                                               justify='left', value=val,
                                               variable=self.psradio_var)
             polarSystemRadio.grid(row=i, column=0, columnspan=2, sticky='w')
+            self.balloon.bind(polarSystemRadio, "Select a polar system.")
         # Open entry fields for polar angle ranges
         self.angleGroup = Pmw.Group(f, tag_text="Angle Ranges")
         self.angleGroup.grid(row=3, column=0, sticky='w')
@@ -124,12 +134,14 @@ class RIVEM_GUI(ModelessDialog):
                                             entry_width=6,
                                             entry_justify='right', value=0.0)
         self.phiStartEntry.grid(row=3, column=0, sticky='e')
+        self.balloon.bind(self.phiStartEntry, "Starting value for Phi angle.")
         self.phiEndEntry = Pmw.EntryField(self.angleGroup.interior(),
                                           label_text=" Phi end: ",
                                           labelpos='w', validate='real',
                                           entry_width=6,
                                           entry_justify='right', value=180.0)
         self.phiEndEntry.grid(row=3, column=1, sticky='e')
+        self.balloon.bind(self.phiEndEntry, "Ending value for Phi angle.")
         # Theta
         self.thetaStartEntry = Pmw.EntryField(self.angleGroup.interior(),
                                               label_text="Theta start: ",
@@ -137,18 +149,23 @@ class RIVEM_GUI(ModelessDialog):
                                               entry_width=6,
                                               entry_justify='right', value=0.0)
         self.thetaStartEntry.grid(row=4, column=0, sticky='e')
+        self.balloon.bind(self.thetaStartEntry, "Starting value for Theta " +
+                          "angle.")
         self.thetaEndEntry = Pmw.EntryField(self.angleGroup.interior(),
                                             label_text=" Theta end: ",
                                             labelpos='w', validate='real',
                                             entry_width=6,
                                             entry_justify='right', value=180.0)
         self.thetaEndEntry.grid(row=4, column=1, sticky='e')
+        self.balloon.bind(self.thetaEndEntry, "Ending value for Theta angle.")
         # Angle increments
         self.angleDeltaEntry = Pmw.EntryField(
                 self.angleGroup.interior(),
                 label_text="Increment angle in steps of: ", labelpos='w',
                 validate='real', entry_width=4, entry_justify='right',
                 value=1.0)
+        self.balloon.bind(self.angleDeltaEntry, "Increment step of angle.\n" +
+                          "Smaller angles yield smoother curves.")
         self.angleDeltaEntry.grid(row=5, column=0, columnspan=2)
         # Open entry fields for XYZ ranges
         self.XYZGroup = Pmw.Group(f, tag_text="XYZ Ranges")
